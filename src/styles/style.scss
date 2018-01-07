@@ -1,0 +1,375 @@
+// @import './resume';
+@import './transition';
+@import '~font-awesome/css/font-awesome.css';
+
+$background: rgb(255, 255, 255);
+// $background:linear-gradient(180deg, rgb(199, 234, 255), rgb(224, 243, 253));
+// $background: linear-gradient(180deg, rgb(30, 166, 250), rgb(198, 234, 255));
+// $background: linear-gradient(180deg, rgb(0, 56, 90), rgb(11, 81, 121));
+// $background: linear-gradient(180deg, rgb(25, 28, 31), rgb(6, 45, 68));
+$color: rgb(0, 0, 0);
+$color2: rgb(129, 129, 129); // rgba(255,255,255,0.5);
+$link-color: rgb(0, 4, 255);
+$link-visited-color: $link-color;
+
+@font-face {
+  font-family: 'Montserrat', sans-serif;
+  src: url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700');
+}
+
+// Fontawesome rules
+.fa.head { margin-right: 8px; font-size: 1.3em; }
+
+h1,h2,h3,h4,h5,h6,p {
+  margin: 0;
+  margin-bottom: 8px;
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+h4,h5,h6,p {
+  letter-spacing: 0.5px;
+}
+h1 {
+  font-weight: 500;
+  font-size: 36px;
+  letter-spacing: 6px;
+}
+h3 {
+  font-weight: 500;
+  font-size: 18px;
+  letter-spacing: 3px;
+}
+p {
+  font-size: 14px;
+  margin-bottom: 0;
+  line-height: 24px;
+}
+
+.item-date {
+  font-weight: 500;
+}
+
+.item-title :first-child {
+  font-weight: 700;
+  margin-right: 4px;
+}
+
+.item-title :nth-child(2) {
+  font-weight: 500;
+}
+
+.item-title :nth-child(2):before {
+  content: '| ';
+}
+
+.vertical-margin {
+  padding: 0.5in 0;
+}
+.item {
+  margin-top: 32px;
+}
+.item:first-child {
+  margin-top: 0;
+}
+
+a {
+  color: inherit;
+}
+a:not(:hover) {
+  text-decoration: none;
+}
+.center {
+  /* display: flex;
+  flex-direction: column;
+  align-items: center; */
+  padding: 0 0.5in;
+}
+.columns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-basis: 800px;
+  max-width: 800px;
+  justify-content: space-between;
+  margin: 0 20px;
+}
+
+.layers {
+  & > * {
+    overflow: hidden;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+    height: 99.999vh;
+  }
+  img {
+    object-fit: cover;
+  }
+}
+
+.nav {
+
+  text-align: center;
+  display: flex;
+  flex: 1;
+  // text-transform: uppercase;
+  ul {
+    display: flex;
+    flex: 1;
+    flex-direction: row;  
+    justify-content: space-between;
+    padding: 0;
+    margin: 0;
+    li {
+      display: flex;
+      a {
+        // box-sizing: border-box;
+        text-decoration: none;
+        color: $color;
+        padding: 16px 0;
+        border-top: 3.5px solid transparent; // Visuallualy weird when transitioning color of whole-number border-width
+        transition: border-top-color 0.3s;  
+        h3 {
+          font-weight: 700;
+        }
+        &:hover, &.active {
+          border-top-color: $color;
+        }
+      }
+    }
+  }
+}
+.flex-table {
+  display: flex;
+  flex-direction: column;
+  p {
+    display: flex;
+  }
+  span {
+    &:first-child {
+      display: flex;
+      font-weight: 600;
+      min-width: 180px;
+      flex-basis: 180px;
+    }
+  }
+}
+
+html,
+body {
+  font-family: 'Montserrat', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+html,
+body,
+#react-root,
+.wrapper {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex: 1;
+  height: 99.999vh;
+  width: 100%;
+  // overflow: hidden;
+  color: $color;
+}
+
+.wrapper {
+  background: $background;
+  position: relative;
+  & > * {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+
+.space-between {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+}
+
+.main {
+  position: relative;
+  display: flex;
+  flex: 1;
+  height: 100%;
+}
+
+.main-inner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  // padding-top: 72px;
+}
+
+.topbar {
+  width: auto;
+  margin: 0 20px; // make room for scrollbar to appear HACK
+  background: $background;
+  background-size: 100% 100vh;
+}
+
+.page {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 72px 0;
+
+  &.projects {
+    ul {
+      display: flex;
+      flex-flow: row wrap;
+      list-style: none;
+      padding: 0 0 4rem 0;
+      margin: 36px 0 0 0;
+      li {
+        display: flex;
+        flex-basis: calc(100% / 3 - 2rem);
+        height: 200px;
+        margin-bottom: 2rem;
+        margin-right: 2rem;
+        div {
+          display: flex;
+          flex: 1;
+        }
+        a {          
+          font-weight: bold;
+          box-sizing: border-box;
+          display: flex;
+          flex: 1;
+          flex-flow: column;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          text-decoration: none;
+          color: $color;
+          transition: color 0.5s;
+          border: 1px solid $color;   
+          position: relative;
+          padding: 16px;
+          &:before {
+            z-index: -1;
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            right: 0;
+            opacity: 0;
+            background-color: transparent;
+            background-size: cover;
+            // background-position: center;
+            transition: opacity 0.5s, background-color 0.5s;
+          }  
+          &:hover {
+            color: transparent;
+            &:before {              
+              opacity: 1;
+              background-color: $color;
+            }
+          }          
+        }
+      }
+    }
+  }
+  &.project-item {
+    .goBack {
+      text-decoration: none;
+      font-size: 3rem;
+      cursor: pointer;
+      color: $color;
+      transition: margin-left 0.3s;
+      &:hover {
+        margin-left: -5px;
+      }  
+    }
+  }
+  &.nomatch > * {
+    width: 100%;
+    height: 100vh;
+  }
+  &.about {
+    & > :last-child {
+      margin-bottom: 24px;
+    }
+  }
+}
+
+.content {
+  &, p {
+    font-size: 18px;
+  }
+  h1 {
+    padding: 1em 0;
+    font-size: 36px;
+  }
+  h2, h3, p, .image {
+    margin-bottom: 24px;
+  }
+  a {
+    color: $link-color;
+    &:visited {
+      color: $link-visited-color;
+    }
+  }
+  .image:before {
+    background-repeat: no-repeat;
+    background-size: contain;
+    padding-top: 56.25%; // img-height / img-width * 100%
+    height: 0;
+    display: block;
+    content: '';
+  }
+}
+
+@media (max-width: 512px) {
+  .page.projects ul li {
+    flex-basis: 100%;
+    height: 150px;
+  }
+
+  .topbar {
+    margin: 0;
+  }
+}
+
+// Preload images the hack way! (aka with css)
+$images: (
+  'gameshare': url('https://i.imgur.com/SV7nMhu.gif'),
+  'aggregor': url('https://i.imgur.com/aGfc6o1.gif'),
+  'warmvector': url('https://i.imgur.com/nGcNT4U.gif'),
+  'bsoe_map': url('https://i.imgur.com/vQmFxeP.png'),
+  'map_maker': url('https://i.imgur.com/eFiUQ5K.png'),
+);
+@each $id, $src in $images {
+  .image-#{$id}:before { background-image: $src; }
+} 
+
+body::after{
+  position:absolute; width:0; height:0; overflow:hidden; z-index:-1;
+  background: map_values($images);
+}
