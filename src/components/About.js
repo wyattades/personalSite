@@ -12,10 +12,9 @@ const resumeItems = [
   </div>,
 
   <p className="content">
-    I am currently a full-time student with a part-time job working on
-    my schools website. With my spare time, I enjoy tinkering with modern web technologies
-    and making intuitive apps. I don't post much online, so I welcome you to contact me for
-    more details!
+    I am currently a full-time CS student with a part-time job working on
+    my school's website. With my spare time, I enjoy tinkering with modern web technologies
+    and making intuitive apps. Please contact me for more details!
   </p>,
   
   <h4 className="text-hr vertical-margin">
