@@ -2,5 +2,5 @@
 
 ## Technologies
 - Front End: React, ReactRouter, FontAwesome, ReactTransitionGroup, SCSS, Three.js
-- Bundler: Webpack along with various optimizers
-- Dev: ReactHotLoader, WebpackDevServer, ESLint, Babel
+- Bundler: Babel and Webpack along with various optimizers
+- Dev: ReactHotLoader, WebpackDevServer, ESLint
