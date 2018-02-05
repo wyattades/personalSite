@@ -99,9 +99,8 @@ const sharedPlugins = [
       content: `About Me: Student and ambitious developer concentrated in
                 creating intuitive web applications`,
     }],
-    lang: 'en-US',
     mobile: true,
-    cache: false,
+    // cache: false,
     favicon: path.resolve(PATHS.src, 'images/favicon.ico'),
     appMountId: 'react-root',
 
@@ -130,6 +129,7 @@ if (process.env.NODE_ENV === 'production') { // PRODUCTION CONFIG
 
     output: {
       path: PATHS.dist,
+      publicPath: '/',
       filename: '[name].[chunkhash].js',
     },
 
@@ -194,5 +194,5 @@ if (process.env.NODE_ENV === 'production') { // PRODUCTION CONFIG
   };
 
 } else {
-  throw new Error('Please provide NODE_ENV environment variable');
+  throw new Error('Please set NODE_ENV environment variable to "production" or "development"');
 }
