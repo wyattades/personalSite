@@ -227,7 +227,7 @@ body,
 .topbar {
   width: auto;
   margin: 0 20px; // make room for scrollbar to appear HACK
-  background: $background;
+  background: linear-gradient(0deg, transparent, $background);
   background-size: 100% 100vh;
 }
 
@@ -269,6 +269,9 @@ body,
           border: 1px solid $color;   
           position: relative;
           padding: 16px;
+
+          background-repeat: no-repeat;
+          background-size: 0 0;
           &:before {
             z-index: -1;
             content: '';
@@ -281,6 +284,7 @@ body,
             background-color: transparent;
             background-size: cover;
             // background-position: center;
+            background-image: inherit;
             transition: opacity 0.5s, background-color 0.5s;
           }  
           &:hover {
@@ -318,6 +322,7 @@ body,
 }
 
 .content {
+  margin-bottom: 3rem;
   &, p {
     font-size: 18px;
   }
@@ -334,13 +339,14 @@ body,
       color: $link-visited-color;
     }
   }
-  .image:before {
+  .image {
+    // background-color: #dadada;
     background-repeat: no-repeat;
     background-size: contain;
     padding-top: 56.25%; // img-height / img-width * 100%
-    height: 0;
-    display: block;
-    content: '';
+    // height: 0;
+    // display: block;
+    // content: '';
   }
 }
 
@@ -375,21 +381,4 @@ body,
   //     padding-bottom: 32px;
   //   }
   // }
-}
-
-// Preload images the hack way! (aka with css)
-$images: (
-  'gameshare': url('https://i.imgur.com/SV7nMhu.gif'),
-  'aggregor': url('https://i.imgur.com/aGfc6o1.gif'),
-  'warmvector': url('https://i.imgur.com/nGcNT4U.gif'),
-  'bsoe_map': url('https://i.imgur.com/vQmFxeP.png'),
-  'map_maker': url('https://i.imgur.com/eFiUQ5K.png'),
-);
-@each $id, $src in $images {
-  .image-#{$id}:before { background-image: $src; }
-} 
-
-body::after{
-  position:absolute; width:0; height:0; overflow:hidden; z-index:-1;
-  background: map_values($images);
 }

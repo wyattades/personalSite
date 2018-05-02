@@ -14,12 +14,11 @@ import Projects from './Projects';
 import ProjectItem from './ProjectItem';
 import About from './About';
 import Contact from './Contact';
-import projects from '../projects.json';
+import projects from '../projects';
 
 export default () => (
   <Router>
     <div className="wrapper">
-      
       <Route
         render={({ location }) => (
           <TransitionGroup component="main" className="main">
@@ -29,6 +28,9 @@ export default () => (
                   <Route exact path="/" component={Home} />
                   <Route path="/about" component={About}/>
                   <Route path="/contact" component={Contact}/>
+                  <Route path="/map_maker" render={() => { // Support legacy url for map_maker
+                    window.location.href = 'https://wyattades.github.io/json_map_generator/';
+                  }}/>
                   <Route
                     exact
                     path="/projects"

@@ -16,6 +16,8 @@ PATHS.entry = './src/index.js';
   
 const baseConfig = {
 
+  mode: process.env.NODE_ENV,
+
   context: __dirname,
   
   module: {
@@ -174,8 +176,13 @@ if (process.env.NODE_ENV === 'production') { // PRODUCTION CONFIG
       publicPath: '/',
     },
 
+    devServer: {
+      hot: true,
+      historyApiFallback: true,
+      port: 8080,
+    },
+
     entry: [
-      'react-hot-loader/patch',
       'webpack-dev-server/client?http://0.0.0.0:8080',
       'webpack/hot/only-dev-server',
       PATHS.entry,

@@ -63,7 +63,7 @@ export default class Projects extends React.Component {
             return (
               <li key={i}>
                 <Animated.div style={style2}>
-                  <Link to={`/projects/${p.id}`} className={`image-${p.id}`}>
+                  <Link to={`/projects/${p.id}`} style={{ backgroundImage: `url("${p.image}")` }}>
                     {p.title}
                   </Link>
                 </Animated.div>

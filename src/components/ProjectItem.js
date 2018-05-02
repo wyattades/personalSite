@@ -3,17 +3,17 @@ import { Link } from 'react-router-dom';
 
 import AnimatedPage from './AnimatedPage';
 
-export default ({ project: { id, title, desc, download, url, source, no_image } }) => {
+const addIf = (cond, element) => cond ? [ element ] : [];
+
+export default ({ project: { title, desc, download, url, source, image } }) => {
 
   const projectItems = [
     <Link className="goBack" to="/projects">←</Link>,
     <h1>{title}</h1>,
-    <p>
-      { download ? <a href={download}><i className="fa fa-cloud-download head"/>Download Link</a> : null }
-      { url ? <a href={url}><i className="fa fa-link head"/>Live Website</a> : null }
-    </p>,
+    ...addIf(download, <p><a href={download}><i className="fa fa-cloud-download head"/>Download Link</a></p>),
+    ...addIf(url, <p><a href={url}><i className="fa fa-link head"/>Live Website</a></p>),
     <p><a href={source}><i className="fa fa-code head"/>Source</a></p>,
-    !no_image ? <div className={`image-${id} image`}/> : null,
+    ...addIf(image, <div className="image" style={{ backgroundImage: `url("${image}")` }}/>),
     <p>{desc.split('\n').map((item, key) => (<span key={key}>{item}<br/></span>))}</p>,
   ];
 

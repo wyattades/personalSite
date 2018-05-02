@@ -10,7 +10,7 @@ const defaultOptions = {
   thickness: 10,
   specular: 0x777777,
   // followRate: 0.03,
-  followRadius: 140,
+  followRadius: 280,
   opacity: 0.8,
   yPos: 0,
   animateDist: -20,
@@ -66,6 +66,7 @@ const renderText = (parent, string, options) => {
   let moveX = 0;
   // let lastW2 = 0;
   const chars = string.split('');
+  const center = new THREE.Vector3();
   const anchors = chars.map((char, i) => {
 
     const geometry = new THREE.TextGeometry(char, {
@@ -75,12 +76,12 @@ const renderText = (parent, string, options) => {
     });
     const text = new THREE.Mesh(geometry, material.clone());
     const bbox = new THREE.Box3().setFromObject(text);
-    const center = bbox.getCenter();
+    bbox.getCenter(center);
     text.position.sub(center);
 
     const anchor = new THREE.Group();
 
-    const w2 = bbox.getSize().x / 2;
+    const w2 = bbox.getSize(new THREE.Vector3()).x / 2;
     if (i !== 0) moveX += 10;
     moveX += w2;
     anchor.position.x = moveX;
