@@ -98,8 +98,8 @@ const sharedPlugins = [
     title: 'Wyatt Ades Portfolio',
     meta: [{
       name: 'description',
-      content: `About Me: Student and ambitious developer concentrated in
-                creating intuitive web applications`,
+      content: 'About Me: Student and ambitious developer concentrated in' +
+                'creating intuitive web applications',
     }],
     mobile: true,
     // cache: false,
@@ -112,10 +112,7 @@ const sharedPlugins = [
         preserveLineBreaks: true,
         minifyJS: true,
       },
-      googleAnalytics: {
-        trackingId: 'UA-105229811-1',
-        pageViewOnLoad: true,
-      },
+      googleAnalytics: 'UA-105229811-1',
     } : {}),
   }),
   

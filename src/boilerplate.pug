@@ -27,14 +27,19 @@
     options.meta = [ options.meta ];
   }
 
-  if (options.googleAnalytics && !options.googleAnalytics.trackingId) {
-    throw new Error('html-webpack-template requires googleAnalytics.trackingId config');
-  }
-
 doctype html
 
 html(lang=options.lang, manifest=files.manifest || '')
   head
+    if (options.googleAnalytics)
+      script(async src=`https://www.googletagmanager.com/gtag/js?id=${options.googleAnalytics}`)
+      script.
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', '#{options.googleAnalytics}'); 
+
     meta(charset='utf-8')
     meta(content='ie=edge' http-equiv='x-ua-compatible')
 
@@ -84,13 +89,3 @@ html(lang=options.lang, manifest=files.manifest || '')
 
     each key in Object.keys(files.chunks)
       script(src=files.chunks[key].entry type='text/javascript')
-
-    if (options.googleAnalytics)
-      script(type='text/javascript')
-        | window.GoogleAnalyticsObject='ga';window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
-        = `ga('create','${options.googleAnalytics.trackingId}','auto');`
-
-        if (options.googleAnalytics.pageViewOnLoad)
-          | ga('send','pageview')
-
-      script(async defer src='https://www.google-analytics.com/analytics.js' type='text/javascript')

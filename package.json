@@ -7,7 +7,7 @@
     "dev": "cross-env NODE_ENV=development webpack-dev-server --color",
     "build": "cross-env NODE_ENV=production webpack --profile --colors",
     "build-deploy": "npm run build && npm run deploy",
-    "deploy": "aws s3 sync dist s3://wyattades.com/ && cf-invalidate --wait -- E1MHDHVPBNLO7M index.html"
+    "deploy": "aws s3 rm s3://wyattades.com --recursive --include \"*.js\" --include \"*.css\" && aws s3 sync dist s3://wyattades.com/ && cf-invalidate --wait -- E1MHDHVPBNLO7M index.html"
   },
   "dependencies": {
     "animated": "^0.2.2",
