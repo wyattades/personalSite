@@ -2,7 +2,8 @@
 @import './transition';
 @import '~font-awesome/css/font-awesome.css';
 
-$background: rgb(255, 255, 255);
+$background-color: rgb(255, 255, 255); 
+$background: $background-color;
 // $background:linear-gradient(180deg, rgb(199, 234, 255), rgb(224, 243, 253));
 // $background: linear-gradient(180deg, rgb(30, 166, 250), rgb(198, 234, 255));
 // $background: linear-gradient(180deg, rgb(0, 56, 90), rgb(11, 81, 121));
@@ -227,8 +228,8 @@ body,
 .topbar {
   width: auto;
   margin: 0 20px; // make room for scrollbar to appear HACK
-  background: linear-gradient(0deg, transparent, $background);
-  background-size: 100% 100vh;
+  background: linear-gradient(0deg, transparent, $background-color 60%, $background-color 100%);
+  height: 100px;
 }
 
 .page {
@@ -283,7 +284,6 @@ body,
             opacity: 0;
             background-color: transparent;
             background-size: cover;
-            // background-position: center;
             background-image: inherit;
             transition: opacity 0.5s, background-color 0.5s;
           }  
@@ -340,13 +340,9 @@ body,
     }
   }
   .image {
-    // background-color: #dadada;
     background-repeat: no-repeat;
     background-size: contain;
     padding-top: 56.25%; // img-height / img-width * 100%
-    // height: 0;
-    // display: block;
-    // content: '';
   }
 }
 
@@ -373,12 +369,4 @@ body,
   .nav h3 {
     letter-spacing: 1px;
   }
-
-  // .space-between {
-  //   // justify-content: 
-  //   flex-wrap: wrap;
-  //   & > *:first-child {
-  //     padding-bottom: 32px;
-  //   }
-  // }
 }
