@@ -98,7 +98,7 @@ const sharedPlugins = [
     title: 'Wyatt Ades Portfolio',
     meta: [{
       name: 'description',
-      content: 'About Me: Student and ambitious developer concentrated in' +
+      content: 'About Me: Student and ambitious developer concentrated in ' +
                 'creating intuitive web applications',
     }],
     mobile: true,
