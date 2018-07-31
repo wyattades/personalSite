@@ -1,4 +1,21 @@
 export default [{
+  id: 'tely',
+  title: 'Tely',
+  image: 'https://i.imgur.com/QREInPh.png',
+  source: 'https://github.com/wyattades/tely',
+  url: 'https://tely.app',
+  desc: 'A platform for creating lists of media, integrated with Discord servers! Tely currently supports \
+  aggregating and sharing any movie, TV show, or Spotify song.',
+}, {
+  id: 'daily_learner',
+  title: 'Daily Learner',
+  image: 'https://i.imgur.com/gcHqW9n.png',
+  source: 'https://github.com/wyattades/daily_learner',
+  url: 'https://dailylearner.pythonanywhere.com',
+  desc: 'A webapp for entering arbitrary data in a way that\'s accessible to anyone. \
+  Easily perform analytics and predictions using machine learning. Currently supports \
+  two types of Linear Models and a Blackbox Model.',
+}, {
   id: 'gameshare',
   title: 'GameShare',
   image: 'https://i.imgur.com/SV7nMhu.gif',
@@ -12,11 +29,11 @@ export default [{
   title: 'Aggregor',
   image: 'https://i.imgur.com/aGfc6o1.gif',
   source: 'https://github.com/wyattades/aggregor_app',
-  url: 'https://aggregor.com',
+  url: 'https://aggregor.now.sh',
   desc: 'Aggregor combines other news and social feeds into one infinite-scrolling page. \
   The user can view and manage multiple personal news feeds. This project mainly served as \
   a learning experience and proof of concept for a fully cross-platform react app i.e. the \
-  same code-base is used on web, android, and ios.',
+  same code-base is used on desktop browser, mobile browser, android, and ios.',
 }, {
   id: 'warmvector',
   title: 'WarmVector',
@@ -68,15 +85,3 @@ export default [{
   desc: 'A minimalist command-line shell that supports some of the basic features of Bash. \
   Compile the tiny source-code on your OS to try it out!',
 }];
-
-/* work in progress:
-{
-  id: 'tely',
-  title: 'Tely',
-  image: '',
-  source: 'https://github.com/wyattades/tely',
-  url: 'http://wyattades.github.io/tely',
-  desc: 'A media-sharing tool integrated with Discord servers! Tely currently supports \
-  sharing all movies and television as well as Spotify Music.'
-}
-*/
