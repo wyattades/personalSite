@@ -2,17 +2,21 @@ const webpack = require('webpack');
 const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const autoprefixer = require('autoprefixer');
+
+const DEV = process.env.NODE_ENV !== 'production';
 
 const PATHS = {};
 PATHS.dist = path.resolve(__dirname, 'dist');
 PATHS.src = path.resolve(__dirname, 'src');
 PATHS.template = path.resolve(PATHS.src, 'boilerplate.pug');
+PATHS.static = path.resolve(PATHS.src, 'static');
 PATHS.assetName = 'asset/[name].[ext]';
 PATHS.entry = './src/index.js';
+PATHS.resumeEntry = './src/resume.js';
   
 const baseConfig = {
 
@@ -34,28 +38,26 @@ const baseConfig = {
         include: PATHS.src,
       }, {
         test: /\.s?css$/,
-        loaders: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                autoprefixer: false,
-              },
+        use: [
+          DEV ? 'style-loader' : MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              autoprefixer: false,
             },
-            {
-              loader: 'postcss-loader',
-              options: {
-                ident: 'postcss',
-                plugins: () => [ autoprefixer() ],
-              },
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              ident: 'postcss',
+              plugins: () => [ autoprefixer() ],
             },
-            'sass-loader',
-          ],
-        }),
+          },
+          'sass-loader',
+        ],
         include: PATHS.css,
       }, {
-        test: /\.(gif|jpe?g|png|svg)(\?\w+=[\d.]+)?$/,
+        test: /\.(gif|jpe?g|png|svg|ttf|eot|woff|woff2)(\?\w+=[\d.]+)?$/,
         use: [ {
           loader: 'url-loader',
           options: {
@@ -63,15 +65,14 @@ const baseConfig = {
             name: PATHS.assetName,
           },
         } ],
-        // include: PATHS.images,
+        // include: PATHS.images, PATHS.fonts
       }, {
-        test: /\.(ttf|eot|woff|woff2)(\?\w+=[\d.]+)?$/,
-        loader: 'url-loader',
+        // test: /\.()(\?\w+=[\d.]+)?$/,
+        loader: 'file-loader',
         options: {
-          name: PATHS.assetName,
-          limit: 10000,
+          name: '[name].[ext]',
         },
-        // include: PATHS.fonts,
+        include: PATHS.static,
       },
     ],
   },
@@ -85,15 +86,15 @@ const sharedPlugins = [
     },
   }),
 
-  new ExtractTextPlugin({
-    filename: '[name].[md5:contenthash:hex:20].css',
+  new MiniCssExtractPlugin({
+    filename: DEV ? '[name].css' : '[name].[hash].css',
     allChunks: true,
-    disable: process.env.NODE_ENV !== 'production',
   }),
 
   new HtmlWebpackPlugin({
     template: PATHS.template, // required
     inject: false, // required
+    chunks: ['main'],
     filename: 'index.html',
     title: 'Wyatt Ades Portfolio',
     meta: [{
@@ -115,6 +116,16 @@ const sharedPlugins = [
       googleAnalytics: 'UA-105229811-1',
     } : {}),
   }),
+
+  new HtmlWebpackPlugin({
+    template: PATHS.template, // required
+    inject: false, // required
+    chunks: ['resume'],
+    filename: 'resume.html',
+    title: 'Wyatt Ades Resume',
+    mobile: false,
+    appMountId: 'react-root',
+  }),
   
 ];
 
@@ -124,6 +135,7 @@ if (process.env.NODE_ENV === 'production') { // PRODUCTION CONFIG
     
     entry: {
       main: PATHS.entry,
+      resume: PATHS.resumeEntry,
     },
 
     output: {
@@ -143,16 +155,6 @@ if (process.env.NODE_ENV === 'production') { // PRODUCTION CONFIG
       new UglifyJsPlugin({
         parallel: true,
       }),
-
-      // CommonsChunkPlugin: vendor must come before runtime
-      // new webpack.optimize.CommonsChunkPlugin({
-      //   name: 'vendor',
-      //   minChunks: ({ resource }) => /node_modules/.test(resource),
-      // }),
-      
-      // new webpack.optimize.CommonsChunkPlugin({
-      //   name: 'runtime',
-      // }),
 
       new OptimizeCssAssetsPlugin({
         cssProcessorOptions: { discardComments: { removeAll: true } },
@@ -179,11 +181,10 @@ if (process.env.NODE_ENV === 'production') { // PRODUCTION CONFIG
       port: 8080,
     },
 
-    entry: [
-      'webpack-dev-server/client?http://0.0.0.0:8080',
-      'webpack/hot/only-dev-server',
-      PATHS.entry,
-    ],
+    entry: {
+      main: PATHS.entry,
+      resume: PATHS.resumeEntry,
+    },
 
     plugins: [
 

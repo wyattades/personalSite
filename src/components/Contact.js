@@ -5,7 +5,6 @@ import AnimatedPage from './AnimatedPage';
 const contactItems = [
   <h1>Contact</h1>,
   <p><a href="mailto:wyattades@gmail.com"><i className="fa fa-envelope head"/>wyattades@gmail.com</a></p>,
-  <p><a href="tel:14152722511"><i className="fa fa-phone head"/>415 272 2511</a></p>,
   <h1>Other Links</h1>,
   <p><a href="https://github.com/wyattades"><i className="fa fa-github head"/>github.com/wyattades</a></p>,
   <p><a href="https://linkedin.com/in/wyattades/"><i className="fa fa-linkedin head"/>linkedin.com/in/wyattades</a></p>,
