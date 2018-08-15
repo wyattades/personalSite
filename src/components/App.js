@@ -27,29 +27,23 @@ const App = () => (
               <div className="main-inner">
                 <Switch location={location}>
                   <Route exact path="/" component={Home} />
-                  <Route path="/about" component={About}/>
-                  <Route path="/contact" component={Contact}/>
-                  <Route path="/map_maker" render={() => { // Support legacy url for map_maker
-                    window.location.href = 'https://wyattades.github.io/json_map_generator/';
-                  }}/>
-                  <Route
-                    exact
-                    path="/projects"
-                    render={props => (
-                      <Projects {...props} projects={projects} />
-                    )}
-                  />
+                  <Route exact path="/about" component={About}/>
+                  <Route exact path="/contact" component={Contact}/>
+                  <Route exact path="/projects" component={Projects}/>
                   <Route
                     path="/projects/:id"
                     render={props => {
-                      const project = projects.filter(p => p.id === props.match.params.id);
-                      return project.length === 1 ? (
-                        <ProjectItem {...props} project={project[0]} />
+                      const project = projects.find(p => p.id === props.match.params.id);
+                      return project ? (
+                        <ProjectItem {...props} project={project} />
                       ) : (
                         <NoMatch/>
                       );
                     }}
                   />
+                  <Route path="/map_maker" render={() => { // Support legacy url for map_maker
+                    window.location.href = 'https://wyattades.github.io/json_map_generator/';
+                  }}/>
                   <Route component={NoMatch} />
                 </Switch>
               </div>
@@ -64,8 +58,8 @@ const App = () => (
             <ul>
               <li><NavLink exact to="/"><h3>Home</h3></NavLink></li>
               <li><NavLink to="/projects"><h3>Projects</h3></NavLink></li>
-              <li><NavLink to="/about"><h3>About</h3></NavLink></li>
-              <li><NavLink to="/contact"><h3>Contact</h3></NavLink></li>
+              <li><NavLink exact to="/about"><h3>About</h3></NavLink></li>
+              <li><NavLink exact to="/contact"><h3>Contact</h3></NavLink></li>
             </ul>
           </nav>
         </div>

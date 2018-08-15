@@ -3,12 +3,15 @@ import { Link } from 'react-router-dom';
 import TransitionGroup from 'react-transition-group/TransitionGroup';
 import * as Animated from 'animated/lib/targets/react-dom';
 
+import projects from '../projects';
+
+
 export default class Projects extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      animations: props.projects.map(() => new Animated.Value(0)),
+      animations: projects.map(() => new Animated.Value(0)),
       animation: new Animated.Value(0),
     };
   }
@@ -50,7 +53,7 @@ export default class Projects extends React.Component {
           </p>
         </Animated.div>
         <TransitionGroup component="ul">
-          {this.props.projects.map((p, i) => {
+          {projects.map((p, i) => {
             const interp2 = this.state.animations[i].interpolate({
               inputRange: [0, 1],
               outputRange: ['12px', '0px'],
@@ -61,7 +64,7 @@ export default class Projects extends React.Component {
             };
             
             return (
-              <li key={i}>
+              <li key={p.id}>
                 <Animated.div style={style2}>
                   <Link to={`/projects/${p.id}`} style={{ backgroundImage: `url("${p.image}")` }}>
                     {p.title}

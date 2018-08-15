@@ -25,6 +25,12 @@ export default [{
   the players create their own experience. Edit, play, and share games instantly with \
   your friends!',
 }, {
+//   id: 'inf-p2p',
+//   title: 'Infinite World Peer-to-peer Game',
+//   source: 'https://github.com/wyattades/inf-p2p',
+//   url: 'https://wyattades.github.io/inf-p2p',
+//   desc: 'Coming soon...',
+// }, {
   id: 'aggregor',
   title: 'Aggregor',
   image: 'https://i.imgur.com/aGfc6o1.gif',
@@ -39,7 +45,7 @@ export default [{
   title: 'WarmVector',
   image: 'https://i.imgur.com/nGcNT4U.gif',
   source: 'https://github.com/wyattades/WarmVector_Client_Singleplayer',
-  download: 'https://drive.google.com/open?id=0BxT-nCrEKjxEWHV3bDJpQkh2b2s',
+  download: 'https://github.com/wyattades/WarmVector_Client_Singleplayer/releases/download/v1.0/WarmVector.zip',
   desc: `Shooting bad guys + randomly generated levels + destructable terrain = profit??
   WarmVector was created with my own 2D Java game engine, which mainly served as a learning \
   experience while I experimented with Java multi-threading and OpenGL. It turned out to be \

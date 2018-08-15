@@ -167,7 +167,7 @@ body {
 
 html,
 body,
-#react-root,
+#root,
 .wrapper {
   margin: 0;
   padding: 0;
@@ -335,6 +335,7 @@ body,
     }
   }
   .image {
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
     background-repeat: no-repeat;
     background-size: contain;
     padding-top: 56.25%; // img-height / img-width * 100%
