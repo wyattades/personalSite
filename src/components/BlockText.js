@@ -1,9 +1,24 @@
 import React from 'react';
-import * as THREE from 'three';
 import * as Animated from 'animated/lib/targets/react-dom';
+// import {
+//   FontLoader, LoadingManager, WebGLRenderer, PerspectiveCamera, Scene, MeshPhongMaterial,
+//   Vector3, Box3, TextGeometry, Mesh, Group, DirectionalLight,
+// } from 'three';
+import { FontLoader } from 'three/src/loaders/FontLoader';
+import { LoadingManager } from 'three/src/loaders/LoadingManager';
+import { WebGLRenderer } from 'three/src/renderers/WebGLRenderer';
+import { PerspectiveCamera } from 'three/src/cameras/PerspectiveCamera';
+import { Scene } from 'three/src/scenes/Scene';
+import { MeshPhongMaterial } from 'three/src/materials/MeshPhongMaterial';
+import { Vector3 } from 'three/src/math/Vector3';
+import { Box3 } from 'three/src/math/Box3';
+import { TextGeometry } from 'three/src/geometries/TextGeometry';
+import { Mesh } from 'three/src/objects/Mesh';
+import { Group } from 'three/src/objects/Group';
+import { DirectionalLight } from 'three/src/lights/DirectionalLight';
 
 import Orientation from './orientation';
-import fontJson from '../fonts/montserrat.json';
+
 
 const defaultOptions = {
   fontSize: 45,
@@ -16,72 +31,55 @@ const defaultOptions = {
   animateDist: -20,
 };
 
-const loadingManager = new THREE.LoadingManager(null, null, console.error);
-const loader = new THREE.FontLoader(loadingManager);
-const font = loader.parse(fontJson);
+const loadingManager = new LoadingManager(null, null, console.error);
+const loader = new FontLoader(loadingManager);
 
-// Returns plain black texture
-const getTexture = () => {
-  const canvas = document.createElement('canvas');
-  
-  canvas.width = 64;
-  canvas.height = 64;
-
-  const ctx = canvas.getContext('2d');
-  ctx.fillStyle = '#000000'; // `rgba(0,0,0,${opacity})`;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  
-  const texture = new THREE.Texture(canvas);
-  texture.needsUpdate = true;
-
-  return texture;
-};
-
-const renderText = (parent, string, options) => {
+const renderText = (parent, string, options, font) => {
 
   // const listeners = [];
 
   const {
-    specular, opacity, fontSize, thickness, followRadius, animateDist, yPos,
+    specular, fontSize, thickness, followRadius, animateDist, yPos,
   } = options;
 
-  const renderer = new THREE.WebGLRenderer({
+  const renderer = new WebGLRenderer({
     alpha: true,
     antialias: true,
   });
 
   parent.appendChild(renderer.domElement);
     
-  const camera = new THREE.PerspectiveCamera(60, parent.clientWidth / parent.clientHeight, 1, 1000);
+  const camera = new PerspectiveCamera(60, parent.clientWidth / parent.clientHeight, 1, 1000);
   camera.position.z = 200;
   camera.position.y = -8;
 
-  const scene = new THREE.Scene();
+  const scene = new Scene();
 
-  const texture = getTexture(opacity);
-  const material = new THREE.MeshPhongMaterial({
-    specular, map: texture, transparent: true, opacity: 0,
+  const material = new MeshPhongMaterial({
+    specular,
+    transparent: true,
+    opacity: 0,
   });
 
   let moveX = 0;
   // let lastW2 = 0;
   const chars = string.split('');
-  const center = new THREE.Vector3();
+  const center = new Vector3();
   const anchors = chars.map((char, i) => {
 
-    const geometry = new THREE.TextGeometry(char, {
+    const geometry = new TextGeometry(char, {
       font,
       size: fontSize,
       height: thickness,
     });
-    const text = new THREE.Mesh(geometry, material.clone());
-    const bbox = new THREE.Box3().setFromObject(text);
+    const text = new Mesh(geometry, material.clone());
+    const bbox = new Box3().setFromObject(text);
     bbox.getCenter(center);
     text.position.sub(center);
 
-    const anchor = new THREE.Group();
+    const anchor = new Group();
 
-    const w2 = bbox.getSize(new THREE.Vector3()).x / 2;
+    const w2 = bbox.getSize(new Vector3()).x / 2;
     if (i !== 0) moveX += 10;
     moveX += w2;
     anchor.position.x = moveX;
@@ -108,7 +106,7 @@ const renderText = (parent, string, options) => {
   resize();
 
   const addLight = (color, x, y, z, intensity = 1) => {
-    const newLight = new THREE.DirectionalLight(color, intensity);
+    const newLight = new DirectionalLight(color, intensity);
     newLight.position.set(x, y, z);
     newLight.lookAt(anchors[Math.floor(chars.length / 2)].position);
     scene.add(newLight);
@@ -136,7 +134,7 @@ const renderText = (parent, string, options) => {
     ratioX = (mx / w) - 0.5;
     ratioY = (my / h) - 0.5;
 
-    const target = new THREE.Vector3(ratioX * followRadius, -ratioY * followRadius, 2 * followRadius);
+    const target = new Vector3(ratioX * followRadius, -ratioY * followRadius, 2 * followRadius);
     // actualTarget.add(target.clone().sub(actualTarget).multiplyScalar(followRate));
 
     for (const anchor of anchors) anchor.lookAt(target);
@@ -172,7 +170,7 @@ const renderText = (parent, string, options) => {
       render();
     }));
 
-  }, 375);
+  }, 200);
 
   render();
 
@@ -205,7 +203,11 @@ class BlockText extends React.Component {
 
   _createText() {
     this._destroyText();
-    this._removeRenderer = renderText(this._parent, this.props.text, this._options);
+    
+    import('../fonts/helv.json')
+    .then((fontJson) => {
+      this._removeRenderer = renderText(this._parent, this.props.text, this._options, loader.parse(fontJson));
+    });
   }
 
   _destroyText() {

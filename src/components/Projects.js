@@ -20,12 +20,15 @@ export default class Projects extends React.Component {
     this._animateIn();
   }
 
+  _goToProject = (id) => () => {
+    this.props.history.push(`/projects/${id}`);
+  }
+
   _animateIn() {
     setTimeout(() => {
       Animated.stagger(
         100,
-        this.state.animations.map(anim =>
-          Animated.spring(anim, { toValue: 1 })),
+        this.state.animations.map(anim => Animated.spring(anim, { toValue: 1 })),
       ).start();
       Animated.spring(this.state.animation, { toValue: 1 }).start();
     }, 375);
@@ -43,7 +46,7 @@ export default class Projects extends React.Component {
     };
 
     return (
-      <div className="container page projects">
+      <div className="page">
         <Animated.div style={style} className="content">
           <h1>Projects</h1>
           <p>
@@ -52,7 +55,7 @@ export default class Projects extends React.Component {
             my <a href="https://github.com/wyattades">github</a>.
           </p>
         </Animated.div>
-        <TransitionGroup component="ul">
+        <TransitionGroup component="div" className="box-list">
           {projects.map((p, i) => {
             const interp2 = this.state.animations[i].interpolate({
               inputRange: [0, 1],
@@ -61,16 +64,13 @@ export default class Projects extends React.Component {
             const style2 = {
               opacity: this.state.animations[i],
               transform: Animated.template`translate3d(0,${interp2},0)`,
+              backgroundImage: `url("${p.image}")`,
             };
             
             return (
-              <li key={p.id}>
-                <Animated.div style={style2}>
-                  <Link to={`/projects/${p.id}`} style={{ backgroundImage: `url("${p.image}")` }}>
-                    {p.title}
-                  </Link>
-                </Animated.div>
-              </li>
+              <Animated.div key={p.id} className="box-link" style={style2} onClick={this._goToProject(p.id)}>
+                {p.title}
+              </Animated.div>
             );
           })}
         </TransitionGroup>

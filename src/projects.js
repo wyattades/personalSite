@@ -1,3 +1,9 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+import games from './games';
+
+
 export default [{
   id: 'tely',
   title: 'Tely',
@@ -30,6 +36,10 @@ export default [{
 //   source: 'https://github.com/wyattades/inf-p2p',
 //   url: 'https://wyattades.github.io/inf-p2p',
 //   desc: 'Coming soon...',
+// }, {
+//   id: 'webpack-boiler',
+// }, {
+//   id: 'java-to-javascript',
 // }, {
   id: 'aggregor',
   title: 'Aggregor',
@@ -90,4 +100,14 @@ export default [{
   source: 'https://github.com/wyattades/minshell',
   desc: 'A minimalist command-line shell that supports some of the basic features of Bash. \
   Compile the tiny source-code on your OS to try it out!',
+}, {
+  id: 'games',
+  title: 'Games',
+  image: 'http://gifimage.net/wp-content/uploads/2018/04/rainbow-gif-10.gif',
+  hideImage: true,
+  desc: games.map((game) => (
+    <p key={game.id}>
+      <Link to={`/projects/games/${game.id}`}>{game.id}</Link>: {game.desc}
+    </p>
+  )),
 }];

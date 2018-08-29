@@ -1,4 +1,7 @@
-import * as THREE from 'three';
+// import { Vector3, Euler, Quaternion } from 'three';
+import { Vector3 } from 'three/src/math/Vector3';
+import { Quaternion } from 'three/src/math/Quaternion';
+import { Euler } from 'three/src/math/Euler';
 
 export default (render, enable, objects) => {
 
@@ -39,17 +42,17 @@ export default (render, enable, objects) => {
 
   const getQuaternion = ((() => {
 
-    const zee = new THREE.Vector3(0, 0, 1);
+    const zee = new Vector3(0, 0, 1);
 
-    const euler = new THREE.Euler();
+    const euler = new Euler();
 
-    const q0 = new THREE.Quaternion();
+    const q0 = new Quaternion();
 
-    const q1 = new THREE.Quaternion(-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5)); // - PI/2 around the x-axis
+    const q1 = new Quaternion(-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5)); // - PI/2 around the x-axis
 
     return (alpha, beta, gamma, orient) => {
 
-      const quaternion = new THREE.Quaternion();
+      const quaternion = new Quaternion();
 
       euler.set(beta, alpha, -gamma, 'YXZ'); // 'ZXY' for the device, but 'YXZ' for us
 
@@ -82,18 +85,20 @@ export default (render, enable, objects) => {
 
   };
 
+  const degToRad = Math.PI / 180;
+
   scope.update = () => {
 
     if (!scope.enabled) return;
 
-    const alpha = scope.deviceOrientation.alpha ?
-      (THREE.Math.degToRad(0 * scope.deviceOrientation.alpha * 0.2)) : 0; // Z
-    const beta = scope.deviceOrientation.beta ?
-      (THREE.Math.degToRad(90 + (scope.deviceOrientation.beta * 0.2))) : 0; // X'
-    const gamma = scope.deviceOrientation.gamma ?
-      (THREE.Math.degToRad(scope.deviceOrientation.gamma * 0.2)) : 0; // Y''
-    const orient = scope.screenOrientation ?
-      THREE.Math.degToRad(scope.screenOrientation) : 0; // O
+    const alpha = scope.deviceOrientation.alpha
+      ? degToRad * (0 * scope.deviceOrientation.alpha * 0.2) : 0; // Z
+    const beta = scope.deviceOrientation.beta
+      ? degToRad * (90 + (scope.deviceOrientation.beta * 0.2)) : 0; // X'
+    const gamma = scope.deviceOrientation.gamma
+      ? degToRad * (scope.deviceOrientation.gamma * 0.2) : 0; // Y''
+    const orient = scope.screenOrientation
+      ? degToRad * (scope.screenOrientation) : 0; // O
 
     const quaternion = getQuaternion(alpha, beta, gamma, orient);
     for (let obj of scope.objects) obj.quaternion.copy(quaternion);

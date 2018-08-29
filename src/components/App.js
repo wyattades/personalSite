@@ -15,7 +15,10 @@ import Projects from './Projects';
 import ProjectItem from './ProjectItem';
 import About from './About';
 import Contact from './Contact';
+import Game from './Game';
 import projects from '../projects';
+import games from '../games';
+
 
 const App = () => (
   <Router>
@@ -30,12 +33,21 @@ const App = () => (
                   <Route exact path="/about" component={About}/>
                   <Route exact path="/contact" component={Contact}/>
                   <Route exact path="/projects" component={Projects}/>
-                  <Route
-                    path="/projects/:id"
+                  <Route exact path="/projects/:project"
                     render={props => {
-                      const project = projects.find(p => p.id === props.match.params.id);
+                      const project = projects.find(p => p.id === props.match.params.project);
                       return project ? (
                         <ProjectItem {...props} project={project} />
+                      ) : (
+                        <NoMatch/>
+                      );
+                    }}
+                  />
+                  <Route exact path="/projects/games/:game"
+                    render={props => {
+                      const game = games.find(p => p.id === props.match.params.game);
+                      return game ? (
+                        <Game {...props} game={game}/>
                       ) : (
                         <NoMatch/>
                       );

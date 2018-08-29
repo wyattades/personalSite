@@ -6,7 +6,7 @@ export default [
     <span>EDUCATION</span>
   </h4>,
 
-  <section className="center">
+  <section className="pad-horizontal">
     <div className="space-between">
       <div>
         <p className="item-date">2015 - Present</p>
@@ -34,7 +34,7 @@ export default [
     <span>EXPERIENCE</span>
   </h4>,
 
-  <section className="center">
+  <section className="pad-horizontal">
 
     <div>
       <div className="item">
@@ -78,11 +78,11 @@ export default [
     <span>SKILLS</span>
   </h4>,
 
-  <section className="center">
+  <section className="pad-horizontal">
     <div className="flex-table">
-      <p><span>Advanced</span><span>JavaScript (Node, React/Native, Webpack), Java, HTML5, CSS/SCSS</span></p>
-      <p><span>Proficient</span><span>Python, C, Bash, PostgreSQL, PHP</span></p>
-      <p><span>Prior Experience</span><span>AWS hosting, Drupal, ARM, Arduino</span></p>
+      <p><span>Advanced</span><span>React, ES6/HTML/CSS, Node, Webpack, Java</span></p>
+      <p><span>Proficient</span><span>Python, C, Bash, PostgreSQL</span></p>
+      <p><span>Prior Experience</span><span>AWS hosting, Drupal, PHP, ARM, Arduino</span></p>
       <p><span>OS</span><span>Linux, Windows, OS X</span></p>
     </div>
   </section>,

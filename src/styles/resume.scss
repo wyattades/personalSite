@@ -6,12 +6,12 @@
   margin: 0;
 }
 
-html, body, #react-root {
+html, body, #root {
   display: block;
   font-family: 'Montserrat';
 }
 
-#react-root {
+#root {
   margin: 0 auto;
   display: block;
   width: 8.5in;
@@ -20,7 +20,7 @@ html, body, #react-root {
 }
 
 @media print {
-  #react-root {
+  #root {
     margin: 0;
   }
 }

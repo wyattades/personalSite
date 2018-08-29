@@ -15,7 +15,8 @@ const App = () => <>
     </div>
     <div className="column-divider"/>
     <div className="column center-text vertical-margin">
-      <br/><h1>WYATT ADES</h1>
+      <br/>
+      <h1>WYATT ADES</h1>
     </div>
     <div className="column-divider"/>
     <div className="column center-text vertical-margin">
@@ -33,4 +34,4 @@ const App = () => <>
   {resumeItems.map((item, i) => React.cloneElement(item, { key: i }))}
 </>;
 
-ReactDOM.render(<App/>, document.getElementById('react-root'));
+ReactDOM.render(<App/>, document.getElementById('root'));
