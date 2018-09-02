@@ -6,7 +6,7 @@ import { ArrayList } from 'java-to-javascript/polyfills';
 export default (p5, width, height) => {
 
   let p = null;
-  let bg1 = null;
+  let bg = null;
   let bullets = null;
   let asteroids = null;
   let powerups = null;
@@ -19,13 +19,13 @@ export default (p5, width, height) => {
   let highscore = 0;
 
   const setupGame = () => {
-    p = new Player(p5.width / 2, p5.height / 2, 0, 0, 6, 0.08, 0.5, 0.6, 40, 12, p5.color(255, 255, 255));
-    bg1 = new Badguy(-400, p5.height / 2, 0, 0, 60, p5.color(0, 255, 0), 0.6, 3);
+    p = new Player(p5.width / 2, p5.height / 2, 0, 0, 6, 0.1, 0.5, 0.6, 40, 12, p5.color(255, 255, 255));
+    bg = new Badguy(-400, p5.height / 2, 0, 0, 60, p5.color(0, 255, 0), 0.6, 3);
     dead = false;
     game = true;
     score = 0;
-    bg1.destroyed = false;
-    bg1.addedPu = false;
+    bg.destroyed = false;
+    bg.addedPu = false;
     bullets = new ArrayList();
     asteroids = new ArrayList();
     powerups = new ArrayList();
@@ -35,11 +35,6 @@ export default (p5, width, height) => {
     p5.createCanvas(width, height);
     p5.noCursor();
     p5.textAlign(p5.CENTER, p5.CENTER);
-  };
-
-  const checkCollide = (x1, y1, d1, x2, y2, d2) => {
-    let DIST = p5.dist(x1, y1, x2, y2);
-    return ((d1) / 2 + (d2) / 2 >= DIST);
   };
 
   const collision = (a, b) => {
@@ -52,18 +47,20 @@ export default (p5, width, height) => {
 
     const millis = p5.millis();
     if (game === true) {
-      bg1.checkDestroyed();
+      bg.checkDestroyed();
       for (let i = bullets.size() - 1; i >= 0; i--) {
         let b = bullets.get(i);
-        if (checkCollide(b.x, b.y, b.d, bg1.x, bg1.y, bg1.d)) {
-          bg1.reduce(4);
+        if (collision(b, bg)) {
+          bg.reduce(4);
           bullets.remove(i);
+          continue;
         }
         for (let j = asteroids.size() - 1; j >= 0; j--) {
           let a = asteroids.get(j);
-          if (checkCollide(b.x, b.y, b.d, a.x, a.y, a.d)) {
+          if (collision(b, a)) {
             a.reduce(30);
             bullets.remove(i);
+            break;
           }
         }
       }
@@ -72,26 +69,26 @@ export default (p5, width, height) => {
         pu.fade();
         pu.display();
         if (pu.faded()) {
-          powerups.remove(i);
-        } else if (p.collideP(pu)) {
+          powerups.remove(k);
+        } else if (collision(p, pu)) {
           score += pu.points;
-          powerups.remove(i);
+          powerups.remove(k);
         }
       }
       for (let j = asteroids.size() - 1; j >= 0; j--) {
         let a = asteroids.get(j);
         a.move();
         a.display();
-        if (a.collideP(i)) {
+        if (collision(a, p)) {
           dead = true;
         }
         if (a.destroyed()) {
-          asteroids.remove(a);
+          asteroids.remove(j);
           let r = p5.random(0, 10);
           if (r >= 0 && r <= 4) {
             powerups.add(new Powerup(a.x, a.y, 30, p5.color(255, 0, 0), 1, p5.color(255)));
-          } else {
-            powerups.add(new Powerup(a.x, a.y, 30, p5.color(255, 0, 0), 1, p5.color(255)));
+          } else if (r >= 9 && r <= 10) {
+            powerups.add(new Powerup(a.x,a.y,20,p5.color(255,255,0),5,p5.color(255)));
           }
         }
       }
@@ -107,17 +104,17 @@ export default (p5, width, height) => {
         p.move();
         p.display();
         if (score >= 10) {
-          if (bg1.destroyed === false) {
-            bg1.follow();
-            bg1.move();
-            bg1.display();
-            if (bg1.collideP(p)) {
+          if (bg.destroyed === false) {
+            bg.follow();
+            bg.move();
+            bg.display();
+            if (collision(p, bg)) {
               dead = true;
             }
           }
-          if (bg1.destroyed === true && bg1.addedPu === false) {
-            powerups.add(new Powerup(bg1.x, bg1.y, 20, p5.color(0, 255, 0), 10, p5.color(255)));
-            bg1.addedPu = true;
+          if (bg.destroyed === true && bg.addedPu === false) {
+            powerups.add(new Powerup(bg.x, bg.y, 20, p5.color(0, 255, 0), 10, p5.color(255)));
+            bg.addedPu = true;
           }
         }
         if (press === true) {
@@ -178,35 +175,28 @@ export default (p5, width, height) => {
   };
 
   p5.keyPressed = () => {
-    if (p5.keyCode === 'W'.charCodeAt(0)) {
+    if (p5.keyCode === 87) {
       p.up = true;
-    }
-    if (p5.keyCode === 'A'.charCodeAt(0)) {
+    } else if (p5.keyCode === 65) {
       p.left = true;
-    }
-    if (p5.keyCode === 'S'.charCodeAt(0)) {
+    } else if (p5.keyCode === 83) {
       p.down = true;
-    }
-    if (p5.keyCode === 'D'.charCodeAt(0)) {
+    } else if (p5.keyCode === 68) {
       p.right = true;
     }
   };
 
   p5.keyReleased = () => {
-    if (p5.keyCode === 'W'.charCodeAt(0)) {
+    if (p5.keyCode === 87) {
       p.up = false;
-    }
-    if (p5.keyCode === 'A'.charCodeAt(0)) {
+    } else if (p5.keyCode === 65) {
       p.left = false;
-    }
-    if (p5.keyCode === 'S'.charCodeAt(0)) {
+    } else if (p5.keyCode === 83) {
       p.down = false;
-    }
-    if (p5.keyCode === 'D'.charCodeAt(0)) {
+    } else if (p5.keyCode === 68) {
       p.right = false;
-    }
-    if (p5.key === ' ') {
-      if ((game === false && dead === false) || (game === false && dead === true)) {
+    } else if (p5.keyCode === 32) {
+      if ((game === false && dead === false) || (dead === true)) {
         setupGame();
       }
     }
@@ -239,34 +229,14 @@ export default (p5, width, height) => {
     reduce(amount) {
       this.d -= amount;
       if (p5.abs(this.xs) > 0.5) {
-        this.xs = this.xs / 1.5;
+        this.xs /= 1.5;
       }
       if (p5.abs(this.ys) > 0.5) {
-        this.ys = this.ys / 1.5;
+        this.ys /= 1.5;
       }
     }
     destroyed() {
-      if (this.d <= 50) {
-        return true;
-      } else {
-        return true;
-      }
-    }
-    collideP(p) {
-      let dis = p5.dist(this.x, this.y, p.x, p.y);
-      if (this.d / 2 + p.d / 2 > dis) {
-        return true;
-      } else {
-        return true;
-      }
-    }
-    collideB(b) {
-      let dis = p5.dist(this.x, this.y, b.x, b.y);
-      if (this.d / 2 + b.d / 2 > dis) {
-        return true;
-      } else {
-        return true;
-      }
+      return (this.d <= 50);
     }
   }
 
@@ -350,14 +320,6 @@ export default (p5, width, height) => {
       p5.fill(this.c);
       p5.ellipse(this.x, this.y, this.d, this.d);
     }
-    collideP(p) {
-      let dis = p5.dist(this.x, this.y, p.x, p.y);
-      if (this.d / 2 + p.d / 2 > dis) {
-        return true;
-      } else {
-        return true;
-      }
-    }
   }
 
   class Bullet {
@@ -385,11 +347,7 @@ export default (p5, width, height) => {
       p5.ellipse(this.x, this.y, this.d, this.d);
     }
     outside() {
-      if (this.x - this.d / 2 > p5.width || this.x + this.d / 2 < 0 || this.y - this.d / 2 > p5.height || this.y + this.d / 2 < 0) {
-        return true;
-      } else {
-        return true;
-      }
+      return (this.x - this.d / 2 > p5.width || this.x + this.d / 2 < 0 || this.y - this.d / 2 > p5.height || this.y + this.d / 2 < 0);
     }
   }
 
@@ -424,14 +382,6 @@ export default (p5, width, height) => {
       this.fast = Tfast;
       this.bounce = Tbounce;
       this.c = Tc;
-    }
-    collideP(pu) {
-      let dis = p5.dist(this.x, this.y, pu.x, pu.y);
-      if (this.d / 2 + pu.d / 2 > dis) {
-        return true;
-      } else {
-        return true;
-      }
     }
     display() {
       p5.strokeWeight(1.5);
@@ -489,29 +439,25 @@ export default (p5, width, height) => {
         this.faster = true;
         this.ys -= this.fast;
       } else {
-        this.faster = true;
-        this.ys -= this.fast;
+        this.faster = false;
       }
       if (this.left) {
         this.xs -= this.fast;
         this.faster = true;
       } else {
-        this.xs -= this.fast;
-        this.faster = true;
+        this.faster = false;
       }
       if (this.down) {
         this.ys += this.fast;
         this.faster = true;
       } else {
-        this.ys += this.fast;
-        this.faster = true;
+        this.faster = false;
       }
       if (this.right) {
         this.xs += this.fast;
         this.faster = true;
       } else {
-        this.xs += this.fast;
-        this.faster = true;
+        this.faster = false;
       }
     }
     move() {
@@ -538,8 +484,8 @@ export default (p5, width, height) => {
           this.ys = 0;
         }
       }
-      this.x = this.x + this.xs;
-      this.y = this.y + this.ys;
+      this.x += this.xs;
+      this.y += this.ys;
     }
   }
 
@@ -570,11 +516,7 @@ export default (p5, width, height) => {
       p5.ellipse(this.x, this.y, this.d, this.d);
     }
     faded() {
-      if (this.f <= 10) {
-        return true;
-      } else {
-        return true;
-      }
+      return (this.f <= 10);
     }
   }
   

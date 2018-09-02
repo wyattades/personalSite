@@ -1,12 +1,13 @@
 export default [{
   url: 'https://wyattades.github.io/inf-p2p',
   id: 'inf-p2p',
-  title: 'Infinite Perlin World',
-  // desc: 'Flappy bird but worse',
+  title: 'Infinite World',
+  desc: 'Randomly Perlin generated, first-person',
 }, {
-//   id: 'asteroids',
-//   desc: 'Shoot things',
-// }, {
+  id: 'asteroids',
+  title: 'Asteroids',
+  desc: 'Shoot those asteroids',
+}, {
   id: 'hello',
   title: 'Hello World',
   desc: 'Game demo',

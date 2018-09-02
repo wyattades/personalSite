@@ -105,10 +105,13 @@ export default [{
   title: 'Games',
   image: 'https://gifimage.net/wp-content/uploads/2018/04/rainbow-gif-10.gif',
   hideImage: true,
-  desc: games.map((game) => (
+  desc: [ 
+    <p>Some of the games I made when learning to code!</p>
+  ].concat(games.map((game, i) => (
     <p key={game.id}>
+      🎮 &nbsp;
       { game.url ? <a href={game.url}>{game.title}</a> : <Link to={`/projects/games/${game.id}`}>{game.title}</Link> }
       { game.desc && `: ${game.desc}` }
     </p>
-  )),
+  ))),
 }];
