@@ -31,7 +31,7 @@ const App = () => <>
       </p>
     </div>
   </section>
-  {resumeItems.map((item, i) => React.cloneElement(item, { key: i }))}
+  {resumeItems}
 </>;
 
 ReactDOM.render(<App/>, document.getElementById('root'));

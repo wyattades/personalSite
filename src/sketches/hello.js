@@ -1,6 +1,6 @@
 export default (p5, width, height) => {
 
-  const radius = 50;
+  const RADIUS = 50;
 
   p5.setup = () => {
     p5.createCanvas(width, height);
@@ -12,7 +12,7 @@ export default (p5, width, height) => {
     p5.background(255);
 
     const time = Date.now() / 1000;
-    p5.text('Hello World!', width / 2 + radius * Math.cos(time), height / 2 + radius * Math.sin(time));
+    p5.text('Hello World!!', width / 2 + RADIUS * Math.cos(time), height / 2 + RADIUS * Math.sin(time));
   };
 
 };

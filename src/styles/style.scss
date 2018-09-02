@@ -43,6 +43,17 @@ p {
   line-height: 24px;
 }
 
+.help {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  color: $color2;
+  font-size: 80% !important;
+  padding-top: 8px;
+  margin: 0 !important;
+  // overflow-y: visible;
+}
+
 .error {
   color: $error;
   padding: 24px;
@@ -328,6 +339,7 @@ body,
 }
 
 .goBack {
+  outline: none;
   user-select: none;
   text-decoration: none;
   font-size: 3rem;

@@ -86,4 +86,5 @@ export default [
       <p><span>OS</span><span>Linux, Windows, OS X</span></p>
     </div>
   </section>,
-];
+  
+].map((item, i) => React.cloneElement(item, { key: i }));
