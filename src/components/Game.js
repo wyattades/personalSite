@@ -65,6 +65,7 @@ export default class Game extends React.Component {
           <div ref={this.containerRef} className="text-center">
             {content}
           </div>
+          {game.help && <p className="help">{game.help}</p>}
         </div>
       </AnimatedPage>
     );

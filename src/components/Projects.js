@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import TransitionGroup from 'react-transition-group/TransitionGroup';
 import * as Animated from 'animated/lib/targets/react-dom';
 

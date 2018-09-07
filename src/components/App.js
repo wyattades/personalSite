@@ -45,7 +45,7 @@ const App = () => (
                   />
                   <Route exact path="/projects/games/:game"
                     render={props => {
-                      const game = games.find(p => p.id === props.match.params.game);
+                      const game = games.find(p => p.id === props.match.params.game && !p.url);
                       return game ? (
                         <Game {...props} game={game}/>
                       ) : (

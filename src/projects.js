@@ -51,17 +51,6 @@ export default [{
   a learning experience and proof of concept for a fully cross-platform react app i.e. the \
   same code-base is used on desktop browser, mobile browser, android, and ios.',
 }, {
-  id: 'warmvector',
-  title: 'WarmVector',
-  image: 'https://i.imgur.com/nGcNT4U.gif',
-  source: 'https://github.com/wyattades/WarmVector_Client_Singleplayer',
-  download: 'https://github.com/wyattades/WarmVector_Client_Singleplayer/releases/download/v1.0/WarmVector.zip',
-  desc: `Shooting bad guys + randomly generated levels + destructable terrain = profit??
-  WarmVector was created with my own 2D Java game engine, which mainly served as a learning \
-  experience while I experimented with Java multi-threading and OpenGL. It turned out to be \
-  a pretty fun game (but is still poorly optimized because it doesn't utilize OpenGL quite \
-  correctly). Have fun!`,
-}, {
   id: 'bsoe_map',
   title: 'BSOE Interactive Map',
   image: 'https://i.imgur.com/vQmFxeP.png',
@@ -106,8 +95,8 @@ export default [{
   image: 'https://gifimage.net/wp-content/uploads/2018/04/rainbow-gif-10.gif',
   hideImage: true,
   desc: [ 
-    <p>Some of the games I made when learning to code!</p>
-  ].concat(games.map((game, i) => (
+    <p key="_">Some of the games I've made while learning to code!<br/><br/></p>
+  ].concat(games.map((game) => (
     <p key={game.id}>
       🎮 &nbsp;
       { game.url ? <a href={game.url}>{game.title}</a> : <Link to={`/projects/games/${game.id}`}>{game.title}</Link> }
