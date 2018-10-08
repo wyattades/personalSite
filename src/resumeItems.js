@@ -81,7 +81,7 @@ export default [
 
   <section className="pad-horizontal">
     <div className="flex-table">
-      <p><span>Advanced</span><span>React, ES6/HTML/CSS, Node, Webpack, Java</span></p>
+      <p><span>Advanced</span><span>PWAs, React, ES6/HTML/CSS, Node, Webpack, Java</span></p>
       <p><span>Proficient</span><span>Python, C, Bash, PostgreSQL</span></p>
       <p><span>Prior Experience</span><span>AWS hosting, Drupal, PHP, ARM</span></p>
       <p><span>OS</span><span>Linux, Windows, OS X</span></p>
