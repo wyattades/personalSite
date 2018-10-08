@@ -41,11 +41,12 @@ export default [
         <p className="item-date">2017 - Present</p>
         <p className="item-title">
           <a href="https://soe.ucsc.edu">UCSC School of Engineering</a>
-          <span>Web Developer</span>
+          <span>Full-Stack Web Developer</span>
         </p>
         <p className="item-desc">
-          • Develop web modules such as interactive maps and news readers
-          <br/> • Perform content audits, refactoring, and responsive styling
+          • Created toolset for migrating hundreds of enterprise sites
+          <br/> • Develop PHP/JS web modules e.g. interactive maps, news readers
+          <br/> • Perform content audits, refactoring, and themed styling
         </p>
       </div>
       <div className="item">
@@ -82,7 +83,7 @@ export default [
     <div className="flex-table">
       <p><span>Advanced</span><span>React, ES6/HTML/CSS, Node, Webpack, Java</span></p>
       <p><span>Proficient</span><span>Python, C, Bash, PostgreSQL</span></p>
-      <p><span>Prior Experience</span><span>AWS hosting, Drupal, PHP, ARM, Arduino</span></p>
+      <p><span>Prior Experience</span><span>AWS hosting, Drupal, PHP, ARM</span></p>
       <p><span>OS</span><span>Linux, Windows, OS X</span></p>
     </div>
   </section>,
