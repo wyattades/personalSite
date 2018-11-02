@@ -5,33 +5,27 @@
   "description": "The portfolio website of Wyatt Ades",
   "scripts": {
     "lint": "eslint src",
+    "get-pdf": "google-chrome --headless --disable-gpu --print-to-pdf='./src/static/resume.pdf' http://localhost:8080/resume.html",
     "postinstall": "node ./utils/treeShakeThreeJs.js",
     "dev": "NODE_ENV=development webpack-dev-server",
-    "build": "BUNDLE_STATS=server NODE_ENV=production webpack",
+    "build": "NODE_ENV=production webpack",
     "build-deploy": "npm run build && npm run deploy",
     "deploy": "aws s3 rm s3://wyattades.com --recursive --include \"*.js\" --include \"*.css\" && aws s3 sync dist s3://wyattades.com/ && cf-invalidate --wait -- E1MHDHVPBNLO7M index.html"
   },
   "dependencies": {
     "animated": "^0.2.2",
     "font-awesome": "^4.7.0",
-    "java-to-javascript": "^0.1.8",
-    "p5": "^0.7.1",
-    "react": "^16.4.2",
-    "react-dom": "^16.4.2",
-    "react-hot-loader": "^4.3.5",
+    "java-to-javascript": "^0.1.10",
+    "p5": "^0.7.2",
+    "react": "^16.6.0",
+    "react-dom": "^16.6.0",
+    "react-hot-loader": "^4.3.11",
     "react-router-dom": "^4.3.1",
-    "react-transition-group": "^2.4.0",
+    "react-transition-group": "^2.5.0",
     "three": "^0.95.0"
   },
   "devDependencies": {
-    "babel-eslint": "^8.2.6",
-    "dotenv": "^6.0.0",
-    "eslint": "^5.4.0",
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jsx-a11y": "6.1.1",
-    "eslint-plugin-react": "^7.11.1",
-    "webpack-boiler": "^0.1.9"
+    "webpack-boiler": "^0.2.2"
   },
   "repository": {
     "type": "git",

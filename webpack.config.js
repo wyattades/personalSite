@@ -18,7 +18,7 @@ module.exports = require('webpack-boiler')({
   react: true,
   url: 'https://wyattades.com',
   googleAnalytics: 'UA-105229811-1',
-  pages: [page, {
+  pages: [{ ...page }, {
     ...page,
     filename: 'resume.html',
     chunks: ['resume'],

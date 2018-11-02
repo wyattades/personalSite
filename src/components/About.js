@@ -17,8 +17,8 @@ export default () => (
         </a>
       </div>
       <p>
-        I am currently a full-time CS student with a part-time job working on
-        my school's website. With my spare time, I enjoy tinkering with modern web technologies
+        I am currently a full-time CS student with a part-time job developing my
+        school's websites. With my spare time, I enjoy tinkering with modern web technologies
         and making intuitive apps. Please contact me for more details!
       </p>
     </div>
