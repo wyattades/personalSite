@@ -16,11 +16,11 @@ export default () => (
           Resume PDF
         </a>
       </div>
-      <p>
+      {/* <p>
         I am currently a full-time CS student with a part-time job developing my
         school's websites. With my spare time, I enjoy tinkering with modern web technologies
         and making intuitive apps. Please contact me for more details!
-      </p>
+      </p> */}
     </div>
     {resumeItems}
   </AnimatedPage>

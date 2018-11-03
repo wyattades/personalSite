@@ -5,7 +5,7 @@
   "description": "The portfolio website of Wyatt Ades",
   "scripts": {
     "lint": "eslint src",
-    "get-pdf": "google-chrome --headless --disable-gpu --print-to-pdf='./src/static/resume.pdf' http://localhost:8080/resume.html",
+    "build-resume": "http-server dist & google-chrome --headless --disable-gpu --print-to-pdf='./dist/resume.pdf' http://localhost:8081/resume.html; kill $!",
     "postinstall": "node ./utils/treeShakeThreeJs.js",
     "dev": "NODE_ENV=development webpack-dev-server",
     "build": "NODE_ENV=production webpack",

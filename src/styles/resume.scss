@@ -41,7 +41,8 @@ h1 {
 
 .vertical-margin {
   padding: 0;
-  margin: $gap+0.1 0 ($gap + 0.2) 0;
+  // margin: $gap+0.1 0 ($gap + 0.2) 0;
+  margin: $gap 0 ($gap+0.1) 0;
 }
 
 .text-hr {

@@ -31,6 +31,7 @@ const App = () => <>
       </p>
     </div>
   </section>
+  <h4 className="text-hr vertical-margin"/>
   {resumeItems}
 </>;
 
