@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import CSSTransition from 'react-transition-group/CSSTransition';
 import TransitionGroup from 'react-transition-group/TransitionGroup';
-import { hot } from 'react-hot-loader';
+import { hot } from 'react-hot-loader/root';
 
 import Home from './Home';
 import NoMatch from './NoMatch';
@@ -80,4 +80,4 @@ const App = () => (
   </Router>
 );
 
-export default hot(module)(App);
+export default hot(App);

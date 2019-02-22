@@ -5,6 +5,13 @@ import games from './games';
 
 
 export default [{
+  id: 'vroom',
+  title: 'Vroom',
+  source: 'https://github.com/gcollelu/vroom',
+  url: 'https://vroom.now.sh',
+  image: 'https://i.imgur.com/ExLTIwf.jpg',
+  desc: 'A platform for people sleeping in their vehicles to find overnight parking',
+}, {
   id: 'tely',
   title: 'Tely',
   image: 'https://i.imgur.com/QREInPh.png',
@@ -22,6 +29,24 @@ export default [{
   Easily perform analytics and predictions using machine learning. Currently supports \
   two types of Linear Models and a Blackbox Model.',
 }, {
+  id: 'webpack-boiler',
+  title: 'webpack-boiler',
+  source: 'https://github.com/wyattades/webpack-boiler',
+  url: 'https://www.npmjs.com/package/webpack-boiler',
+  desc: 'Webpack configuration boilerplate. Great for easily configuring React or vanilla Progressive Web Apps',
+}, {
+  id: 'java-to-javascript',
+  title: 'Java to Javascript',
+  source: 'https://github.com/wyattades/java-to-javascript',
+  url: 'https://www.npmjs.com/package/java-to-javascript',
+  desc: 'Convert Java Classes to ES6 Classes',
+// }, {
+//   id: 'inf-p2p',
+//   title: 'Infinite World Peer-to-peer Game',
+//   source: 'https://github.com/wyattades/inf-p2p',
+//   url: 'https://wyattades.github.io/inf-p2p',
+//   desc: 'Check out the live',
+}, {
   id: 'gameshare',
   title: 'GameShare',
   image: 'https://i.imgur.com/SV7nMhu.gif',
@@ -31,16 +56,6 @@ export default [{
   the players create their own experience. Edit, play, and share games instantly with \
   your friends!',
 }, {
-//   id: 'inf-p2p',
-//   title: 'Infinite World Peer-to-peer Game',
-//   source: 'https://github.com/wyattades/inf-p2p',
-//   url: 'https://wyattades.github.io/inf-p2p',
-//   desc: 'Coming soon...',
-// }, {
-//   id: 'webpack-boiler',
-// }, {
-//   id: 'java-to-javascript',
-// }, {
   id: 'aggregor',
   title: 'Aggregor',
   image: 'https://i.imgur.com/aGfc6o1.gif',

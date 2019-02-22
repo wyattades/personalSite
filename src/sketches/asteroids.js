@@ -1,4 +1,4 @@
-import { ArrayList } from 'java-to-javascript/polyfills';
+import { ArrayList } from 'java-to-javascript/lib/polyfills';
 
 // This source code was converted directly from Java (specifically Processing)
 // using npm module `java-to-javascript`

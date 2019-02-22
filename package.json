@@ -5,7 +5,7 @@
   "description": "The portfolio website of Wyatt Ades",
   "scripts": {
     "lint": "eslint src",
-    "build-resume": "http-server dist & google-chrome --headless --disable-gpu --print-to-pdf='./dist/resume.pdf' http://localhost:8081/resume.html; kill $!",
+    "build-resume": "http-server dist -p 8088 & google-chrome --headless --disable-gpu --print-to-pdf='./dist/resume.pdf' http://localhost:8088/resume.html; kill $!",
     "postinstall": "node ./utils/treeShakeThreeJs.js",
     "dev": "NODE_ENV=development webpack-dev-server",
     "build": "NODE_ENV=production webpack",
@@ -15,17 +15,17 @@
   "dependencies": {
     "animated": "^0.2.2",
     "font-awesome": "^4.7.0",
-    "java-to-javascript": "^0.1.10",
-    "p5": "^0.7.2",
-    "react": "^16.6.0",
-    "react-dom": "^16.6.0",
-    "react-hot-loader": "^4.3.11",
+    "java-to-javascript": "^0.1.15",
+    "p5": "^0.7.3",
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3",
+    "react-hot-loader": "^4.7.1",
     "react-router-dom": "^4.3.1",
-    "react-transition-group": "^2.5.0",
+    "react-transition-group": "^2.5.3",
     "three": "^0.95.0"
   },
   "devDependencies": {
-    "webpack-boiler": "^0.2.2"
+    "webpack-boiler": "^0.3.3"
   },
   "repository": {
     "type": "git",

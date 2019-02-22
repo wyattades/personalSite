@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import AnimatedPage from './AnimatedPage';
 
+
 const HEIGHT = 600;
 const SRC_DIR = 'https://github.com/wyattades/personal-site/blob/master/src/sketches';
 
@@ -20,7 +21,10 @@ export default class Game extends React.Component {
     const { game } = this.props;
 
     // This method doesn't support hot reloading :(
-    Promise.all([import('p5'), import(/* webpackChunkName: "sketches/[request]" */ `../sketches/${game.id}`)])
+    Promise.all([
+      import('p5'),
+      import(/* webpackChunkName: "sketches/[request]" */ `../sketches/${game.id}`),
+    ])
     .then(([ p5, sketch ]) => {
       this.setState({
         loading: false,
