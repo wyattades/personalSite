@@ -8,7 +8,7 @@ const resume = '/resume.pdf';
 
 export default () => (
   <AnimatedPage label="about">
-    <div className="content">
+    <div className="content" style={{ marginBottom: 0 }}>
       <div className="space-between">
         <h1>About Me</h1>
         <a href={resume}>

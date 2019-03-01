@@ -16,7 +16,7 @@ const App = () => <>
     <div className="column-divider"/>
     <div className="column center-text vertical-margin">
       <br/>
-      <h1>WYATT ADES</h1>
+      <h1><a href="https://wyattades.com">WYATT ADES</a></h1>
     </div>
     <div className="column-divider"/>
     <div className="column center-text vertical-margin">
@@ -31,7 +31,7 @@ const App = () => <>
       </p>
     </div>
   </section>
-  <h4 className="text-hr vertical-margin"/>
+  <h4 className="text-hr vertical-margin" style={{ marginTop: 0 }}/>
   {resumeItems}
 </>;
 
