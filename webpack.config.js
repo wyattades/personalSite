@@ -13,6 +13,7 @@ module.exports = require('webpack-boiler')({
   entry: {
     index: './src/index.js',
     resume: './src/resume.js',
+    screensaver: './src/screensaver.js',
   },
   react: true,
   url: 'https://wyattades.com',
@@ -21,5 +22,9 @@ module.exports = require('webpack-boiler')({
     ...page,
     filename: 'resume.html',
     chunks: ['resume'],
+  }, {
+    ...page,
+    filename: 'screensaver.html',
+    chunks: ['screensaver'],
   }],
 });

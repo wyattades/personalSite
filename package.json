@@ -16,16 +16,16 @@
     "animated": "^0.2.2",
     "font-awesome": "^4.7.0",
     "java-to-javascript": "^0.1.15",
-    "p5": "^0.7.3",
-    "react": "^16.8.3",
-    "react-dom": "^16.8.3",
-    "react-hot-loader": "^4.7.1",
-    "react-router-dom": "^4.3.1",
-    "react-transition-group": "^2.5.3",
-    "three": "^0.95.0"
+    "p5": "^0.8.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-hot-loader": "^4.8.8",
+    "react-router-dom": "^5.0.0",
+    "react-transition-group": "^4.0.1",
+    "three": "^0.104.0"
   },
   "devDependencies": {
-    "webpack-boiler": "^0.3.3"
+    "webpack-boiler": "^0.3.4"
   },
   "repository": {
     "type": "git",
