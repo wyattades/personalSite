@@ -6,7 +6,7 @@ import Fluid from './components/Fluid';
 
 
 const App = () => <>
-  <Fluid randomSplashWeight={3000}/>
+  <Fluid getRandTimeout={() => Math.ceil(Math.random() * 3000) + 500}/>
 </>;
 
 ReactDOM.render(<App/>, document.getElementById('root'));

@@ -192,33 +192,35 @@ const renderText = (parent, string, options, font) => {
 
 class BlockText extends React.Component {
 
+  containerRef = React.createRef();
+
   componentDidMount() {
-    this._options = Object.assign(defaultOptions, this.props.options || {});
-    this._createText();
+    this.options = Object.assign(defaultOptions, this.props.options || {});
+    this.createText();
   }
 
   componentWillUnmount() {
-    this._destroyText();
+    this.destroyText();
   }
 
-  _createText() {
-    this._destroyText();
+  createText() {
+    this.destroyText();
     
     import('../fonts/helv.json')
     .then((fontJson) => {
-      this._removeRenderer = renderText(this._parent, this.props.text, this._options, loader.parse(fontJson));
+      this.removeRenderer = renderText(this.containerRef.current, this.props.text, this.options, loader.parse(fontJson));
     });
   }
 
-  _destroyText() {
-    this._removeRenderer && this._removeRenderer();
-    this._removeRenderer = null;
+  destroyText() {
+    this.removeRenderer && this.removeRenderer();
+    this.removeRenderer = null;
   }
 
   // Use min width and height to prevent webGL crash when size is 0
   render() {
     return (
-      <div ref={_ => { this._parent = _; }} style={{ minHeight: 10, minWidth: 10 }}/>
+      <div ref={this.containerRef} style={{ minHeight: 10, minWidth: 10 }}/>
     );
   }
 }
