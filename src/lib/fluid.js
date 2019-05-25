@@ -1,55 +1,7 @@
-const ga = (...args) => console.log(...args);
+import AggregateListener from './AggregateListener';
+import ldrRgbImage from '../images/LDR_RGB1_0.png';
 
-class AggregateListener {
-  constructor() {
-    this.listeners = [];
-  }
-
-  add(observer, name, cb, useCapture) {
-    observer.addEventListener(name, cb, useCapture);
-
-    this.listeners.push({
-      observer,
-      name,
-      cb,
-    });
-  }
-
-  remove(observer, name, cb) {
-    if (cb) {
-      this.listeners = this.listeners.filter((lis) => {
-        if (lis.observer === observer && lis.name === name && lis.cb === cb) {
-          lis.observer.removeEventListener(lis.name, lis.cb);
-          return false;
-        }
-        return true;
-      });
-    } else if (name) {
-      this.listeners = this.listeners.filter((lis) => {
-        if (lis.observer === observer && lis.name === name) {
-          lis.observer.removeEventListener(lis.name, lis.cb);
-          return false;
-        }
-        return true;
-      });
-    } else if (observer) {
-      this.listeners = this.listeners.filter((lis) => {
-        if (lis.observer === observer) {
-          lis.observer.removeEventListener(lis.name, lis.cb);
-          return false;
-        }
-        return true;
-      });
-    } else {
-      for (const lis of this.listeners) {
-        lis.observer.removeEventListener(lis.name, lis.cb);
-      }
-      this.listeners = [];
-    }
-  }
-}
-
-function pointerPrototype() {
+function PointerPrototype() {
   this.id = -1;
   this.x = 0;
   this.y = 0;
@@ -62,6 +14,107 @@ function pointerPrototype() {
 
 function isMobile() {
   return /Mobi|Android/i.test(navigator.userAgent);
+}
+
+function supportRenderTextureFormat(gl, internalFormat, format, type) {
+  let texture = gl.createTexture();
+  gl.bindTexture(gl.TEXTURE_2D, texture);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  gl.texImage2D(gl.TEXTURE_2D, 0, internalFormat, 4, 4, 0, format, type, null);
+
+  let fbo = gl.createFramebuffer();
+  gl.bindFramebuffer(gl.FRAMEBUFFER, fbo);
+  gl.framebufferTexture2D(
+    gl.FRAMEBUFFER,
+    gl.COLOR_ATTACHMENT0,
+    gl.TEXTURE_2D,
+    texture,
+    0,
+  );
+
+  const status = gl.checkFramebufferStatus(gl.FRAMEBUFFER);
+  if (status != gl.FRAMEBUFFER_COMPLETE) return false;
+  return true;
+}
+
+function getSupportedFormat(gl, internalFormat, format, type) {
+  if (!supportRenderTextureFormat(gl, internalFormat, format, type)) {
+    switch (internalFormat) {
+      case gl.R16F:
+        return getSupportedFormat(gl, gl.RG16F, gl.RG, type);
+      case gl.RG16F:
+        return getSupportedFormat(gl, gl.RGBA16F, gl.RGBA, type);
+      default:
+        return null;
+    }
+  }
+
+  return {
+    internalFormat,
+    format,
+  };
+}
+
+function getWebGLContext(canvas) {
+  const params = {
+    alpha: true,
+    depth: false,
+    stencil: false,
+    antialias: false,
+    preserveDrawingBuffer: false,
+  };
+
+  let gl = canvas.getContext('webgl2', params);
+  const isWebGL2 = !!gl;
+  if (!isWebGL2)
+    gl =
+      canvas.getContext('webgl', params) ||
+      canvas.getContext('experimental-webgl', params);
+
+  let halfFloat;
+  let supportLinearFiltering;
+  if (isWebGL2) {
+    gl.getExtension('EXT_color_buffer_float');
+    supportLinearFiltering = gl.getExtension('OES_texture_float_linear');
+  } else {
+    halfFloat = gl.getExtension('OES_texture_half_float');
+    supportLinearFiltering = gl.getExtension('OES_texture_half_float_linear');
+  }
+
+  gl.clearColor(0.0, 0.0, 0.0, 1.0);
+
+  const halfFloatTexType = isWebGL2 ? gl.HALF_FLOAT : halfFloat.HALF_FLOAT_OES;
+  let formatRGBA;
+  let formatRG;
+  let formatR;
+
+  if (isWebGL2) {
+    formatRGBA = getSupportedFormat(gl, gl.RGBA16F, gl.RGBA, halfFloatTexType);
+    formatRG = getSupportedFormat(gl, gl.RG16F, gl.RG, halfFloatTexType);
+    formatR = getSupportedFormat(gl, gl.R16F, gl.RED, halfFloatTexType);
+  } else {
+    formatRGBA = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloatTexType);
+    formatRG = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloatTexType);
+    formatR = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloatTexType);
+  }
+
+  // if (formatRGBA == null)
+  //   ga('send', 'event', isWebGL2 ? 'webgl2' : 'webgl', 'not supported');
+  // else ga('send', 'event', isWebGL2 ? 'webgl2' : 'webgl', 'supported');
+
+  return {
+    gl,
+    ext: {
+      formatRGBA,
+      formatRG,
+      formatR,
+      halfFloatTexType,
+      supportLinearFiltering,
+    },
+  };
 }
 
 const FluidInit = (canvas) => {
@@ -90,7 +143,7 @@ const FluidInit = (canvas) => {
   let pointers = [];
   let splatStack = [];
   let bloomFramebuffers = [];
-  pointers.push(new pointerPrototype());
+  pointers.push(new PointerPrototype());
 
   const { gl, ext } = getWebGLContext(canvas);
 
@@ -98,124 +151,6 @@ const FluidInit = (canvas) => {
   if (!ext.supportLinearFiltering) {
     config.SHADING = false;
     config.BLOOM = false;
-  }
-
-  function getWebGLContext(canvas) {
-    const params = {
-      alpha: true,
-      depth: false,
-      stencil: false,
-      antialias: false,
-      preserveDrawingBuffer: false,
-    };
-
-    let gl = canvas.getContext('webgl2', params);
-    const isWebGL2 = !!gl;
-    if (!isWebGL2)
-      gl =
-        canvas.getContext('webgl', params) ||
-        canvas.getContext('experimental-webgl', params);
-
-    let halfFloat;
-    let supportLinearFiltering;
-    if (isWebGL2) {
-      gl.getExtension('EXT_color_buffer_float');
-      supportLinearFiltering = gl.getExtension('OES_texture_float_linear');
-    } else {
-      halfFloat = gl.getExtension('OES_texture_half_float');
-      supportLinearFiltering = gl.getExtension('OES_texture_half_float_linear');
-    }
-
-    gl.clearColor(0.0, 0.0, 0.0, 1.0);
-
-    const halfFloatTexType = isWebGL2
-      ? gl.HALF_FLOAT
-      : halfFloat.HALF_FLOAT_OES;
-    let formatRGBA;
-    let formatRG;
-    let formatR;
-
-    if (isWebGL2) {
-      formatRGBA = getSupportedFormat(
-        gl,
-        gl.RGBA16F,
-        gl.RGBA,
-        halfFloatTexType,
-      );
-      formatRG = getSupportedFormat(gl, gl.RG16F, gl.RG, halfFloatTexType);
-      formatR = getSupportedFormat(gl, gl.R16F, gl.RED, halfFloatTexType);
-    } else {
-      formatRGBA = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloatTexType);
-      formatRG = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloatTexType);
-      formatR = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloatTexType);
-    }
-
-    if (formatRGBA == null)
-      ga('send', 'event', isWebGL2 ? 'webgl2' : 'webgl', 'not supported');
-    else ga('send', 'event', isWebGL2 ? 'webgl2' : 'webgl', 'supported');
-
-    return {
-      gl,
-      ext: {
-        formatRGBA,
-        formatRG,
-        formatR,
-        halfFloatTexType,
-        supportLinearFiltering,
-      },
-    };
-  }
-
-  function getSupportedFormat(gl, internalFormat, format, type) {
-    if (!supportRenderTextureFormat(gl, internalFormat, format, type)) {
-      switch (internalFormat) {
-        case gl.R16F:
-          return getSupportedFormat(gl, gl.RG16F, gl.RG, type);
-        case gl.RG16F:
-          return getSupportedFormat(gl, gl.RGBA16F, gl.RGBA, type);
-        default:
-          return null;
-      }
-    }
-
-    return {
-      internalFormat,
-      format,
-    };
-  }
-
-  function supportRenderTextureFormat(gl, internalFormat, format, type) {
-    let texture = gl.createTexture();
-    gl.bindTexture(gl.TEXTURE_2D, texture);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    gl.texImage2D(
-      gl.TEXTURE_2D,
-      0,
-      internalFormat,
-      4,
-      4,
-      0,
-      format,
-      type,
-      null,
-    );
-
-    let fbo = gl.createFramebuffer();
-    gl.bindFramebuffer(gl.FRAMEBUFFER, fbo);
-    gl.framebufferTexture2D(
-      gl.FRAMEBUFFER,
-      gl.COLOR_ATTACHMENT0,
-      gl.TEXTURE_2D,
-      texture,
-      0,
-    );
-
-    const status = gl.checkFramebufferStatus(gl.FRAMEBUFFER);
-    if (status != gl.FRAMEBUFFER_COMPLETE) return false;
-    return true;
   }
 
   // function startGUI() {
@@ -986,7 +921,7 @@ const FluidInit = (canvas) => {
   let pressure;
   let bloom;
 
-  let ditheringTexture = createTextureAsync('LDR_RGB1_0.png');
+  let ditheringTexture = createTextureAsync(ldrRgbImage);
 
   const clearProgram = new GLProgram(baseVertexShader, clearShader);
   const colorProgram = new GLProgram(baseVertexShader, colorShader);
@@ -1582,30 +1517,32 @@ const FluidInit = (canvas) => {
     density.swap();
   }
 
-  const multipleSplats = (amount) => {
-    let iterations = 0;
-    const intervalId = setInterval(() => {
-      for (let i = 0; i < amount; i++) {
-        const color = generateColor();
-        color.r *= 10.0;
-        color.g *= 10.0;
-        color.b *= 10.0;
-        const x = canvas.width * Math.random();
-        const y = canvas.height * Math.random();
-        const dx = 1000 * (Math.random() - 0.5);
-        const dy = 1000 * (Math.random() - 0.5);
+  const multipleSplats = (amount, moveAmount = 1) => {
+    for (let i = 0; i < amount; i++) {
+      let color = generateColor(1.2);
+      const x = canvas.width * Math.random();
+      const y = canvas.height * Math.random();
+      const dx = 1000 * (Math.random() - 0.5);
+      const dy = 1000 * (Math.random() - 0.5);
 
-        splat(x, y, dx, dy, color);
-      }
-
-      if (iterations++ > 5) clearInterval(intervalId);
-    }, 60);
+      let iterations = 0;
+      const intervalId = setInterval(() => {
+        splat(
+          x + (dx * iterations) / moveAmount,
+          y + (dy * iterations) / moveAmount,
+          dx,
+          dy,
+          color,
+        );
+        if (iterations++ > moveAmount) clearInterval(intervalId);
+      }, 60);
+    }
   };
 
   function resizeCanvas() {
     if (
-      canvas.width != canvas.clientWidth ||
-      canvas.height != canvas.clientHeight
+      canvas.width !== canvas.clientWidth ||
+      canvas.height !== canvas.clientHeight
     ) {
       canvas.width = canvas.clientWidth;
       canvas.height = canvas.clientHeight;
@@ -1613,11 +1550,11 @@ const FluidInit = (canvas) => {
     }
   }
 
-  function generateColor() {
+  function generateColor(scale = 0.15) {
     let c = HSVtoRGB(Math.random(), 1.0, 1.0);
-    c.r *= 0.15;
-    c.g *= 0.15;
-    c.b *= 0.15;
+    c.r *= scale;
+    c.g *= scale;
+    c.b *= scale;
     return c;
   }
 
@@ -1694,7 +1631,7 @@ const FluidInit = (canvas) => {
 
   aggLis.add(window, 'keydown', (e) => {
     if (e.code === 'KeyP') config.PAUSED = !config.PAUSED;
-    if (e.key === ' ') splatStack.push(parseInt(Math.random() * 20) + 5);
+    if (e.key === ' ') splatStack.push(Math.floor(Math.random() * 20) + 5);
   });
 
   // startGUI();
@@ -1737,7 +1674,7 @@ const FluidInit = (canvas) => {
     e.preventDefault();
     const touches = e.targetTouches;
     for (let i = 0; i < touches.length; i++) {
-      if (i >= pointers.length) pointers.push(new pointerPrototype());
+      if (i >= pointers.length) pointers.push(new PointerPrototype());
 
       pointers[i].id = touches[i].identifier;
       pointers[i].down = true;

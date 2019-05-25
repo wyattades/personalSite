@@ -17,7 +17,7 @@ import { Mesh } from 'three/src/objects/Mesh';
 import { Group } from 'three/src/objects/Group';
 import { DirectionalLight } from 'three/src/lights/DirectionalLight';
 
-import Orientation from './orientation';
+import Orientation from '../lib/orientation';
 
 
 const defaultOptions = {
