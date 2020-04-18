@@ -1,6 +1,4 @@
-
 export default (p5, width, height) => {
-  
   let pipe1 = null;
   let pipe2 = null;
   let bug = null;
@@ -17,14 +15,14 @@ export default (p5, width, height) => {
   };
 
   p5.setup = () => {
-    p5.createCanvas((height * 2 / 3) | 0, height);
+    p5.createCanvas(((height * 2) / 3) | 0, height);
     p5.textAlign(p5.CENTER, p5.CENTER);
     setupGame();
   };
 
   p5.draw = () => {
     p5.background('#52C8FC');
-    if (on === true & dead === false) {
+    if ((on === true) & (dead === false)) {
       pipe1.move();
       pipe2.move();
       bug.move();
@@ -41,7 +39,7 @@ export default (p5, width, height) => {
     p5.fill('#15D320');
     p5.rect(0, p5.height - 30, p5.width, p5.height - 25);
     pipe2.displayground();
-    if (on === false & dead === true) {
+    if ((on === false) & (dead === true)) {
       p5.fill(0);
       p5.textSize(40);
       p5.text('YOU ARE DEAD', p5.width / 2, 190);
@@ -125,7 +123,15 @@ export default (p5, width, height) => {
         p5.arc(this.x - 12, this.y, 11, 17, 0, 5 * p5.QUARTER_PI, p5.OPEN);
       }
       if (flap === false) {
-        p5.arc(this.x - 14, this.y - 4, 17, 11, 2 * p5.QUARTER_PI, 7 * p5.QUARTER_PI, p5.OPEN);
+        p5.arc(
+          this.x - 14,
+          this.y - 4,
+          17,
+          11,
+          2 * p5.QUARTER_PI,
+          7 * p5.QUARTER_PI,
+          p5.OPEN,
+        );
       }
       if (dead === true) {
         p5.stroke(0);
@@ -173,8 +179,11 @@ export default (p5, width, height) => {
       }
     }
     hit(b) {
-      if ((b.x + 15 >= this.x - 35 && b.x - 15 <= this.x + 35)
-      && (b.y + 15 >= this.y + 350 || b.y - 15 <= this.y + 250)) {
+      if (
+        b.x + 15 >= this.x - 35 &&
+        b.x - 15 <= this.x + 35 &&
+        (b.y + 15 >= this.y + 350 || b.y - 15 <= this.y + 250)
+      ) {
         dead = true;
         on = false;
       }
@@ -192,9 +201,13 @@ export default (p5, width, height) => {
       p5.fill('#25892B');
       p5.rectMode(p5.CORNERS);
       for (let i = -50; i < 50; i++) {
-        p5.rect(this.x + 10 * i, p5.height - 30, this.x + 10 * i - 5, p5.height - 25);
+        p5.rect(
+          this.x + 10 * i,
+          p5.height - 30,
+          this.x + 10 * i - 5,
+          p5.height - 25,
+        );
       }
     }
   }
-
 };

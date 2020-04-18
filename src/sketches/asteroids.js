@@ -4,7 +4,6 @@ import { ArrayList } from 'java-to-javascript/lib/polyfills';
 // using npm module `java-to-javascript`
 
 export default (p5, width, height) => {
-
   let p = null;
   let bg = null;
   let bullets = null;
@@ -19,7 +18,19 @@ export default (p5, width, height) => {
   let highscore = 0;
 
   const setupGame = () => {
-    p = new Player(p5.width / 2, p5.height / 2, 0, 0, 6, 0.1, 0.5, 0.6, 40, 12, p5.color(255, 255, 255));
+    p = new Player(
+      p5.width / 2,
+      p5.height / 2,
+      0,
+      0,
+      6,
+      0.1,
+      0.5,
+      0.6,
+      40,
+      12,
+      p5.color(255, 255, 255),
+    );
     bg = new Badguy(-400, p5.height / 2, 0, 0, 60, p5.color(0, 255, 0), 0.6, 3);
     dead = false;
     game = true;
@@ -39,7 +50,7 @@ export default (p5, width, height) => {
 
   const collision = (a, b) => {
     let DIST = p5.dist(a.x, a.y, b.x, b.y);
-    return ((a.d) / 2 + (b.d) / 2 >= DIST);
+    return a.d / 2 + b.d / 2 >= DIST;
   };
 
   p5.draw = () => {
@@ -86,9 +97,20 @@ export default (p5, width, height) => {
           asteroids.remove(j);
           let r = p5.random(0, 10);
           if (r >= 0 && r <= 4) {
-            powerups.add(new Powerup(a.x, a.y, 30, p5.color(255, 0, 0), 1, p5.color(255)));
+            powerups.add(
+              new Powerup(a.x, a.y, 30, p5.color(255, 0, 0), 1, p5.color(255)),
+            );
           } else if (r >= 9 && r <= 10) {
-            powerups.add(new Powerup(a.x,a.y,20,p5.color(255,255,0),5,p5.color(255)));
+            powerups.add(
+              new Powerup(
+                a.x,
+                a.y,
+                20,
+                p5.color(255, 255, 0),
+                5,
+                p5.color(255),
+              ),
+            );
           }
         }
       }
@@ -113,7 +135,16 @@ export default (p5, width, height) => {
             }
           }
           if (bg.destroyed === true && bg.addedPu === false) {
-            powerups.add(new Powerup(bg.x, bg.y, 20, p5.color(0, 255, 0), 10, p5.color(255)));
+            powerups.add(
+              new Powerup(
+                bg.x,
+                bg.y,
+                20,
+                p5.color(0, 255, 0),
+                10,
+                p5.color(255),
+              ),
+            );
             bg.addedPu = true;
           }
         }
@@ -122,17 +153,34 @@ export default (p5, width, height) => {
             timeB = millis + 200;
             let xpos = p.x + p5.cos(p.angle + p5.PI / 2) * p.d;
             let ypos = p.y + p5.sin(p.angle + p5.PI / 2) * p.d;
-            bullets.add(new Bullet(xpos, ypos, 12, 12, 7, p5.color(255, 255, 255)));
+            bullets.add(
+              new Bullet(xpos, ypos, 12, 12, 7, p5.color(255, 255, 255)),
+            );
           }
         }
         if (millis > timeA) {
           timeA = millis + 200;
           let angle = p5.random(0, 2 * p5.PI);
-          let xpos = p5.width / 2 + p5.cos(angle) * p5.sqrt(p5.sq(p5.height) + p5.sq(p5.width)) / 2 + p5.random(50, 150);
-          let ypos = p5.height / 2 + p5.sin(angle) * p5.sqrt(p5.sq(p5.height) + p5.sq(p5.width)) / 2 + p5.random(50, 150);
+          let xpos =
+            p5.width / 2 +
+            (p5.cos(angle) * p5.sqrt(p5.sq(p5.height) + p5.sq(p5.width))) / 2 +
+            p5.random(50, 150);
+          let ypos =
+            p5.height / 2 +
+            (p5.sin(angle) * p5.sqrt(p5.sq(p5.height) + p5.sq(p5.width))) / 2 +
+            p5.random(50, 150);
           let randomS = p5.random(1, 4);
           let randomA = p5.random(-90, 90);
-          asteroids.add(new Asteroid(xpos, ypos, (-1) * randomS * p5.cos(angle + randomA), p5.random(-3, 3) + (-1) * randomS * p5.sin(angle + randomA), p5.random(70, 200), p5.color(180)));
+          asteroids.add(
+            new Asteroid(
+              xpos,
+              ypos,
+              -1 * randomS * p5.cos(angle + randomA),
+              p5.random(-3, 3) + -1 * randomS * p5.sin(angle + randomA),
+              p5.random(70, 200),
+              p5.color(180),
+            ),
+          );
         }
       }
       if (dead === true) {
@@ -147,7 +195,11 @@ export default (p5, width, height) => {
       p5.stroke(255);
       p5.text('Press [SPACE] to Begin', p5.width / 2, p5.height / 2);
       p5.textSize(40);
-      p5.text('HINT: use WASD to move your player, \nand use the mouse to shoot asteroids', p5.width / 2, p5.height / 2 + 200);
+      p5.text(
+        'HINT: use WASD to move your player, \nand use the mouse to shoot asteroids',
+        p5.width / 2,
+        p5.height / 2 + 200,
+      );
     }
     if (highscore <= score) {
       highscore = score;
@@ -196,7 +248,7 @@ export default (p5, width, height) => {
     } else if (p5.keyCode === 68) {
       p.right = false;
     } else if (p5.keyCode === 32) {
-      if ((game === false && dead === false) || (dead === true)) {
+      if ((game === false && dead === false) || dead === true) {
         setupGame();
       }
     }
@@ -236,7 +288,7 @@ export default (p5, width, height) => {
       }
     }
     destroyed() {
-      return (this.d <= 50);
+      return this.d <= 50;
     }
   }
 
@@ -347,7 +399,12 @@ export default (p5, width, height) => {
       p5.ellipse(this.x, this.y, this.d, this.d);
     }
     outside() {
-      return (this.x - this.d / 2 > p5.width || this.x + this.d / 2 < 0 || this.y - this.d / 2 > p5.height || this.y + this.d / 2 < 0);
+      return (
+        this.x - this.d / 2 > p5.width ||
+        this.x + this.d / 2 < 0 ||
+        this.y - this.d / 2 > p5.height ||
+        this.y + this.d / 2 < 0
+      );
     }
   }
 
@@ -399,8 +456,18 @@ export default (p5, width, height) => {
       p5.pop();
       p5.noFill();
       p5.ellipse(p5.mouseX, p5.mouseY, this.cd, this.cd);
-      p5.line(p5.mouseX - this.cd / 2, p5.mouseY, p5.mouseX + this.cd / 2, p5.mouseY);
-      p5.line(p5.mouseX, p5.mouseY - this.cd / 2, p5.mouseX, p5.mouseY + this.cd / 2);
+      p5.line(
+        p5.mouseX - this.cd / 2,
+        p5.mouseY,
+        p5.mouseX + this.cd / 2,
+        p5.mouseY,
+      );
+      p5.line(
+        p5.mouseX,
+        p5.mouseY - this.cd / 2,
+        p5.mouseX,
+        p5.mouseY + this.cd / 2,
+      );
     }
     bounceOffBoundary() {
       if (this.x - this.d / 2 <= 0) {
@@ -516,8 +583,7 @@ export default (p5, width, height) => {
       p5.ellipse(this.x, this.y, this.d, this.d);
     }
     faded() {
-      return (this.f <= 10);
+      return this.f <= 10;
     }
   }
-  
 };

@@ -4,7 +4,6 @@ import { ArrayList } from 'java-to-javascript/lib/polyfills';
 // using npm module `java-to-javascript`
 
 export default (p5, width, height, P5) => {
-
   let ship = null;
   let left = false;
   let right = false;
@@ -15,7 +14,12 @@ export default (p5, width, height, P5) => {
 
   p5.setup = () => {
     p5.createCanvas(width, height);
-    ship = new Ship(p5.createVector(p5.width / 2, 5 * p5.height / 6), p5.createVector(0, -1), 20, p5.color(230, 230, 0));
+    ship = new Ship(
+      p5.createVector(p5.width / 2, (5 * p5.height) / 6),
+      p5.createVector(0, -1),
+      20,
+      p5.color(230, 230, 0),
+    );
     left = right = false;
     asteroids = new ArrayList();
     wall = new Wall(p5.height, p5.color(255));
@@ -26,9 +30,19 @@ export default (p5, width, height, P5) => {
 
   const newAsteroid = () => {
     if (p5.random(0, 1) < 0.35) {
-      return new Asteroid(p5.createVector(p5.random(0, p5.width), ship.pos.y - p5.height), p5.random(90, 120), p5.color(255, 0, 0), true);
+      return new Asteroid(
+        p5.createVector(p5.random(0, p5.width), ship.pos.y - p5.height),
+        p5.random(90, 120),
+        p5.color(255, 0, 0),
+        true,
+      );
     }
-    return new Asteroid(p5.createVector(p5.random(0, p5.width), ship.pos.y - p5.height), p5.random(90, 120), p5.color(0, 0, 255), false);
+    return new Asteroid(
+      p5.createVector(p5.random(0, p5.width), ship.pos.y - p5.height),
+      p5.random(90, 120),
+      p5.color(0, 0, 255),
+      false,
+    );
   };
 
   p5.draw = () => {
@@ -77,7 +91,11 @@ export default (p5, width, height, P5) => {
     wall.display();
     p5.pop();
     p5.fill(255);
-    p5.text('Use left and right arrow keys to turn, and press both to boost.', p5.width / 2, 30);
+    p5.text(
+      'Use left and right arrow keys to turn, and press both to boost.',
+      p5.width / 2,
+      30,
+    );
   };
 
   p5.keyPressed = () => {
@@ -146,7 +164,10 @@ export default (p5, width, height, P5) => {
         this.trails.remove(this.trails.size() - 1);
         let d = p5.createVector(this.size / 2, 0);
         d.rotate(this.vel.heading());
-        this.trails.add(0, new Trail(P5.Vector.sub(this.pos.copy(), d), this.size, 255));
+        this.trails.add(
+          0,
+          new Trail(P5.Vector.sub(this.pos.copy(), d), this.size, 255),
+        );
         this.trailtime = p5.millis();
       }
       for (const t of this.trails) {
@@ -158,7 +179,14 @@ export default (p5, width, height, P5) => {
       p5.push();
       p5.translate(this.pos.x, this.pos.y);
       p5.rotate(this.vel.heading());
-      p5.triangle(-this.size / 2, -this.size / 2, -this.size / 2, this.size / 2, this.size / 2, 0);
+      p5.triangle(
+        -this.size / 2,
+        -this.size / 2,
+        -this.size / 2,
+        this.size / 2,
+        this.size / 2,
+        0,
+      );
       p5.pop();
     }
     move() {
@@ -215,5 +243,4 @@ export default (p5, width, height, P5) => {
     }
   }
   Wall.speed = 5;
-
 };

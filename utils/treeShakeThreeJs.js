@@ -17,13 +17,23 @@ modify(`${PATH}/package.json`, (txt) => {
 
 const SHADERS = `${PATH}/src/renderers/shaders`;
 
-let shaders = fs.readdirSync(`${SHADERS}/ShaderChunk`).map((name) => `${SHADERS}/ShaderChunk/${name}`);
-shaders = shaders.concat(fs.readdirSync(`${SHADERS}/ShaderLib`).map((name) => `${SHADERS}/ShaderLib/${name}`));
+let shaders = fs
+  .readdirSync(`${SHADERS}/ShaderChunk`)
+  .map((name) => `${SHADERS}/ShaderChunk/${name}`);
+shaders = shaders.concat(
+  fs
+    .readdirSync(`${SHADERS}/ShaderLib`)
+    .map((name) => `${SHADERS}/ShaderLib/${name}`),
+);
 
 for (const shader of shaders) {
   if (shader.endsWith('.glsl')) {
-    modify(shader, (txt) => {
-      return `export default \`${txt}\`;`;
-    }, shader + '.js');
+    modify(
+      shader,
+      (txt) => {
+        return `export default \`${txt}\`;`;
+      },
+      shader + '.js',
+    );
   }
 }

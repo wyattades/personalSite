@@ -5,12 +5,12 @@
 
 .pagefade-appear-active,
 .pagefade-enter-active {
-  transition: opacity .375s $easing;
+  transition: opacity 0.375s $easing;
   opacity: 1;
 }
 
 .pagefade-exit {
-  transition: opacity .375s $easing;
+  transition: opacity 0.375s $easing;
   opacity: 1;
 }
 

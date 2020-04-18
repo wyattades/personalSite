@@ -3,7 +3,6 @@ import React from 'react';
 import AnimatedPage from './AnimatedPage';
 import resumeItems from '../resumeItems';
 
-
 const resume = '/resume.pdf';
 
 export default () => (
@@ -12,7 +11,7 @@ export default () => (
       <div className="space-between">
         <h1>About Me</h1>
         <a href={resume}>
-          <i className="fa fa-link head"/>
+          <i className="fa fa-link head" />
           Resume PDF
         </a>
       </div>

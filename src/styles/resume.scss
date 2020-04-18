@@ -1,12 +1,13 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700');
 @import './style.scss';
 
-
 @page {
   margin: 0;
 }
 
-html, body, #root {
+html,
+body,
+#root {
   display: block;
   // TEMP
   // font-family: 'Montserrat';
@@ -33,7 +34,7 @@ h1 {
 }
 
 .pad-horizontal {
-    padding: 0 $gap;
+  padding: 0 $gap;
 }
 
 .center-text {
@@ -43,7 +44,7 @@ h1 {
 .vertical-margin {
   padding: 0;
   // margin: $gap+0.1 0 ($gap + 0.2) 0;
-  margin: $gap 0 ($gap+0.1) 0;
+  margin: $gap 0 ($gap + 0.1) 0;
 }
 
 .text-hr {
@@ -57,7 +58,7 @@ h1 {
   overflow: visible;
 }
 
-.text-hr>* {
+.text-hr > * {
   background-color: white;
   padding: 0 $gap/2;
 }

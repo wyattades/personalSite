@@ -3,12 +3,14 @@ import * as Animated from 'animated/lib/targets/react-dom';
 import TransitionGroup from 'react-transition-group/TransitionGroup';
 
 export default class AnimatedPage extends React.Component {
-
   constructor(props) {
     super(props);
-  
+
     this.state = {
-      animations: React.Children.map(props.children, () => new Animated.Value(0)),
+      animations: React.Children.map(
+        props.children,
+        () => new Animated.Value(0),
+      ),
     };
   }
 
@@ -20,9 +22,10 @@ export default class AnimatedPage extends React.Component {
     setTimeout(() => {
       Animated.stagger(
         100,
-        this.state.animations.map(anim => Animated.spring(anim, { toValue: 1 })),
+        this.state.animations.map((anim) =>
+          Animated.spring(anim, { toValue: 1 }),
+        ),
       ).start();
-
     }, 375);
   }
 
@@ -40,7 +43,9 @@ export default class AnimatedPage extends React.Component {
           });
           const style = {
             opacity: this.state.animations[i],
-            transform: Animated.template`translate3d(${left ? interp : 0}px,${left ? 0 : interp}px,0)`,
+            transform: Animated.template`translate3d(${left ? interp : 0}px,${
+              left ? 0 : interp
+            }px,0)`,
           };
 
           return (
@@ -48,7 +53,6 @@ export default class AnimatedPage extends React.Component {
               {item}
             </Animated.div>
           );
-
         })}
       </TransitionGroup>
     );

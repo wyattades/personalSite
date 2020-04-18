@@ -15,37 +15,23 @@ class AggregateListener {
     });
   }
 
-  remove(observer, name, cb) {
-    if (cb) {
-      this.listeners = this.listeners.filter((lis) => {
-        if (lis.observer === observer && lis.name === name && lis.cb === cb) {
-          lis.observer.removeEventListener(lis.name, lis.cb);
-          return false;
-        }
-        return true;
-      });
-    } else if (name) {
-      this.listeners = this.listeners.filter((lis) => {
-        if (lis.observer === observer && lis.name === name) {
-          lis.observer.removeEventListener(lis.name, lis.cb);
-          return false;
-        }
-        return true;
-      });
-    } else if (observer) {
-      this.listeners = this.listeners.filter((lis) => {
-        if (lis.observer === observer) {
-          lis.observer.removeEventListener(lis.name, lis.cb);
-          return false;
-        }
-        return true;
-      });
-    } else {
-      for (const lis of this.listeners) {
-        lis.observer.removeEventListener(lis.name, lis.cb);
-      }
-      this.listeners = [];
+  _eq(keys1, keys2) {
+    for (const key in keys1) {
+      const val = keys1[key];
+      if (val && val !== keys2[key]) return false;
     }
+    return true;
+  }
+
+  remove(observer, name, cb) {
+    const keys = { observer, name, cb };
+    this.listeners = this.listeners.filter((lis) => {
+      if (this._eq(keys, lis)) {
+        lis.observer.removeEventListener(lis.name, lis.cb);
+        return false;
+      }
+      return true;
+    });
   }
 }
 

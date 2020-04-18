@@ -19,7 +19,6 @@ import { DirectionalLight } from 'three/src/lights/DirectionalLight';
 
 import Orientation from './orientation';
 
-
 const defaultOptions = {
   fontSize: 45,
   thickness: 10,
@@ -35,11 +34,15 @@ const loadingManager = new LoadingManager(null, null, console.error);
 const loader = new FontLoader(loadingManager);
 
 const renderText = (parent, string, options, font) => {
-
   // const listeners = [];
 
   const {
-    specular, fontSize, thickness, followRadius, animateDist, yPos,
+    specular,
+    fontSize,
+    thickness,
+    followRadius,
+    animateDist,
+    yPos,
   } = options;
 
   const renderer = new WebGLRenderer({
@@ -48,8 +51,13 @@ const renderText = (parent, string, options, font) => {
   });
 
   parent.appendChild(renderer.domElement);
-    
-  const camera = new PerspectiveCamera(60, parent.clientWidth / parent.clientHeight, 1, 1000);
+
+  const camera = new PerspectiveCamera(
+    60,
+    parent.clientWidth / parent.clientHeight,
+    1,
+    1000,
+  );
   camera.position.z = 200;
   camera.position.y = -8;
 
@@ -66,7 +74,6 @@ const renderText = (parent, string, options, font) => {
   const chars = string.split('');
   const center = new Vector3();
   const anchors = chars.map((char, i) => {
-
     const geometry = new TextGeometry(char, {
       font,
       size: fontSize,
@@ -84,7 +91,7 @@ const renderText = (parent, string, options, font) => {
     moveX += w2;
     anchor.position.x = moveX;
     moveX += w2;
-    
+
     anchor.position.y = animateDist + yPos;
     anchor.add(text);
     scene.add(anchor);
@@ -99,7 +106,11 @@ const renderText = (parent, string, options, font) => {
     renderer.setSize(w, h);
     camera.aspect = w / h;
     // Set FOV so letters fit in screen with some margin (20deg)
-    camera.fov = 20 + (2 * Math.atan(moveX / (camera.aspect * 2 * camera.position.z)) * (180 / Math.PI));
+    camera.fov =
+      20 +
+      2 *
+        Math.atan(moveX / (camera.aspect * 2 * camera.position.z)) *
+        (180 / Math.PI);
     camera.updateProjectionMatrix();
   };
   window.addEventListener('resize', resize);
@@ -122,19 +133,22 @@ const renderText = (parent, string, options, font) => {
   // addLight(0xffff00, -100, 0, 50);
 
   let mx = 0,
-      my = 0;
+    my = 0;
   let animateId;
   let render = () => {
-    
     let ratioX = 0;
     let ratioY = 0;
 
     const { clientWidth: w, clientHeight: h } = parent;
-    
-    ratioX = (mx / w) - 0.5;
-    ratioY = (my / h) - 0.5;
 
-    const target = new Vector3(ratioX * followRadius, -ratioY * followRadius, 2 * followRadius);
+    ratioX = mx / w - 0.5;
+    ratioY = my / h - 0.5;
+
+    const target = new Vector3(
+      ratioX * followRadius,
+      -ratioY * followRadius,
+      2 * followRadius,
+    );
     // actualTarget.add(target.clone().sub(actualTarget).multiplyScalar(followRate));
 
     for (const anchor of anchors) anchor.lookAt(target);
@@ -143,33 +157,44 @@ const renderText = (parent, string, options, font) => {
 
     // animateId = requestAnimationFrame(render);
   };
-  const onMouseMove = e => { mx = e.clientX; my = e.clientY; render(); };
+  const onMouseMove = (e) => {
+    mx = e.clientX;
+    my = e.clientY;
+    render();
+  };
   document.addEventListener('mousemove', onMouseMove);
   document.addEventListener('click', onMouseMove);
 
   let orientation;
   if ('DeviceOrientationEvent' in window) {
     const enableOrient = () => {
-
       cancelAnimationFrame(animateId);
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('click', onMouseMove);
     };
-    orientation = Orientation(() => renderer.render(scene, camera), enableOrient, anchors);
+    orientation = Orientation(
+      () => renderer.render(scene, camera),
+      enableOrient,
+      anchors,
+    );
   }
 
   const animTimer = setTimeout(() => {
     const anims = Array.from(string).map(() => new Animated.Value(0));
 
-    Animated.stagger(100, anims.map(anim => Animated.spring(anim, { toValue: 1 }))).start();
+    Animated.stagger(
+      100,
+      anims.map((anim) => Animated.spring(anim, { toValue: 1 })),
+    ).start();
 
-    anims.forEach((anim, i) => anim.addListener(({ value }) => {
-      anchors[i].position.y = ((1 - value) * animateDist) + yPos;
+    anims.forEach((anim, i) =>
+      anim.addListener(({ value }) => {
+        anchors[i].position.y = (1 - value) * animateDist + yPos;
 
-      anchors[i].children[0].material.opacity = value;
-      render();
-    }));
-
+        anchors[i].children[0].material.opacity = value;
+        render();
+      }),
+    );
   }, 200);
 
   render();
@@ -189,9 +214,7 @@ const renderText = (parent, string, options, font) => {
   };
 };
 
-
 class BlockText extends React.Component {
-
   containerRef = React.createRef();
 
   componentDidMount() {
@@ -205,10 +228,14 @@ class BlockText extends React.Component {
 
   createText() {
     this.destroyText();
-    
-    import('../fonts/helv.json')
-    .then((fontJson) => {
-      this.removeRenderer = renderText(this.containerRef.current, this.props.text, this.options, loader.parse(fontJson));
+
+    import('../fonts/helv.json').then((fontJson) => {
+      this.removeRenderer = renderText(
+        this.containerRef.current,
+        this.props.text,
+        this.options,
+        loader.parse(fontJson),
+      );
     });
   }
 
@@ -220,7 +247,7 @@ class BlockText extends React.Component {
   // Use min width and height to prevent webGL crash when size is 0
   render() {
     return (
-      <div ref={this.containerRef} style={{ minHeight: 10, minWidth: 10 }}/>
+      <div ref={this.containerRef} style={{ minHeight: 10, minWidth: 10 }} />
     );
   }
 }

@@ -4,7 +4,6 @@ import { ArrayList } from 'java-to-javascript/lib/polyfills';
 // using npm module `java-to-javascript`
 
 export default (p5, width, height) => {
-  
   let target = null;
   let pies = null;
   let center = null;
@@ -22,7 +21,16 @@ export default (p5, width, height) => {
   let spaceBar = false;
   let play = false;
   let difficultyTime = 0;
-  let colorScheme = [p5.color(255, 0, 0), p5.color(255, 128, 0), p5.color(255, 255, 0), p5.color(0, 255, 0), p5.color(0, 255, 255), p5.color(0, 0, 255), p5.color(128, 0, 255), p5.color(255, 0, 255)];
+  let colorScheme = [
+    p5.color(255, 0, 0),
+    p5.color(255, 128, 0),
+    p5.color(255, 255, 0),
+    p5.color(0, 255, 0),
+    p5.color(0, 255, 255),
+    p5.color(0, 0, 255),
+    p5.color(128, 0, 255),
+    p5.color(255, 0, 255),
+  ];
 
   p5.setup = () => {
     p5.createCanvas(width, height);
@@ -48,7 +56,7 @@ export default (p5, width, height) => {
     for (let i = 17; i >= 0; i--) {
       pies.add(new Pie(i * ringThickness, p5.PI / 2, colorSchemeSample()));
     }
-    target = new Target(center.x, 5 * p5.height / 6);
+    target = new Target(center.x, (5 * p5.height) / 6);
     startTime = p5.millis() / 1000;
     difficultyTime = p5.millis();
   };
@@ -80,7 +88,13 @@ export default (p5, width, height) => {
           rotateDifference *= -1;
         }
         previousAngle += rotateDifference;
-        pies.add(new Pie(pF.radius - ringThickness, previousAngle, colorSchemeSample()));
+        pies.add(
+          new Pie(
+            pF.radius - ringThickness,
+            previousAngle,
+            colorSchemeSample(),
+          ),
+        );
       }
       for (const p of pies) {
         p.move();
@@ -114,7 +128,11 @@ export default (p5, width, height) => {
   };
 
   const colorSchemeSample = () => {
-    return p5.lerpColor(colorScheme[p5.floor((time / 10) % (colorScheme.length))], colorScheme[p5.floor((time / 10 + 1) % (colorScheme.length))], p5.random(1));
+    return p5.lerpColor(
+      colorScheme[p5.floor((time / 10) % colorScheme.length)],
+      colorScheme[p5.floor((time / 10 + 1) % colorScheme.length)],
+      p5.random(1),
+    );
   };
 
   p5.keyPressed = () => {
@@ -155,7 +173,14 @@ export default (p5, width, height) => {
       p5.fill(this.FILL);
       p5.push();
       p5.rotate(this.angle);
-      p5.arc(0, 0, 2 * this.radius, 2 * this.radius, gapAngle / 2, p5.TWO_PI - gapAngle / 2);
+      p5.arc(
+        0,
+        0,
+        2 * this.radius,
+        2 * this.radius,
+        gapAngle / 2,
+        p5.TWO_PI - gapAngle / 2,
+      );
       p5.pop();
     }
     move() {
@@ -165,9 +190,14 @@ export default (p5, width, height) => {
       this.radius += growthSpeed;
     }
     collideTarget(targetDist) {
-      return (targetDist > this.radius - ringThickness - 10 && targetDist < this.radius + 10)
-          && !(((ANGLE + this.angle) % p5.TWO_PI) - gapAngle / 2 < p5.PI / 2
-          && ((ANGLE + this.angle) % p5.TWO_PI) + gapAngle / 2 > p5.PI / 2);
+      return (
+        targetDist > this.radius - ringThickness - 10 &&
+        targetDist < this.radius + 10 &&
+        !(
+          ((ANGLE + this.angle) % p5.TWO_PI) - gapAngle / 2 < p5.PI / 2 &&
+          ((ANGLE + this.angle) % p5.TWO_PI) + gapAngle / 2 > p5.PI / 2
+        )
+      );
     }
   }
 
@@ -201,5 +231,4 @@ export default (p5, width, height) => {
       p5.pop();
     }
   }
-
 };
