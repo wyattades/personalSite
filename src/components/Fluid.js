@@ -10,23 +10,21 @@ import createFluid from '../lib/fluid';
 //   }, [watcher, name, listener]);
 // };
 
-const Fluid = ({ getRandTimeout }) => {
+const Fluid = ({ getSplashInfo }) => {
   const canvasRef = useRef();
 
   useEffect(() => {
     const fluid = createFluid(canvasRef.current);
 
     let randomTimeoutId;
-    if (getRandTimeout) {
+    if (getSplashInfo) {
+      let iteration = 0;
       const randomSplash = () => {
-        fluid.multipleSplats(Math.floor(Math.random() * 3) + 1);
+        const { amount, timeout, moveAmount } = getSplashInfo(iteration++);
 
-        randomTimeoutId = setTimeout(
-          randomSplash,
-          typeof getRandTimeout === 'function'
-            ? getRandTimeout()
-            : getRandTimeout,
-        );
+        fluid.multipleSplats(amount, moveAmount);
+
+        randomTimeoutId = setTimeout(randomSplash, timeout);
       };
       randomTimeoutId = randomSplash();
     }
