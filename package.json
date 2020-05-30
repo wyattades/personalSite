@@ -17,15 +17,15 @@
     "font-awesome": "^4.7.0",
     "java-to-javascript": "^0.1.15",
     "p5": "^0.8.0",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-hot-loader": "^4.8.8",
-    "react-router-dom": "^5.0.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-hot-loader": "^4.12.21",
+    "react-router-dom": "^5.2.0",
     "react-transition-group": "^4.0.1",
     "three": "^0.104.0"
   },
   "devDependencies": {
-    "webpack-boiler": "^0.3.4"
+    "webpack-boiler": "^0.4.2"
   },
   "repository": {
     "type": "git",
