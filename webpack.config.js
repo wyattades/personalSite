@@ -1,10 +1,8 @@
 const page = {
-  title: 'Wyatt Portfolio',
+  title: "Wyatt's Portfolio",
   chunks: ['index'],
   meta: {
-    description:
-      'About Me: Student and ambitious developer concentrated in ' +
-      'creating intuitive web applications',
+    description: 'A website for my projects',
   },
   favicon: 'src/images/favicon.ico',
 };

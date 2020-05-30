@@ -38,7 +38,14 @@ export default [
   <section className="pad-horizontal">
     <div>
       <div className="item">
-        <p className="item-date">2018 - Present</p>
+        <p className="item-date">2019 - Present</p>
+        <p className="item-title">
+          <a href="https://triplebyte.com">Triplebyte</a>
+          <span>Software Engineer</span>
+        </p>
+      </div>
+      <div className="item">
+        <p className="item-date">2018 - 2019</p>
         <p className="item-title">
           <a href="https://rootid.com">Rootid</a>
           <span>Full-Stack Development Intern</span>
