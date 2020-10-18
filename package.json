@@ -7,10 +7,8 @@
     "lint": "eslint src",
     "build-resume": "http-server dist -p 8088 & google-chrome --headless --disable-gpu --print-to-pdf='./dist/resume.pdf' http://localhost:8088/resume.html; kill $!",
     "postinstall": "node ./utils/treeShakeThreeJs.js",
-    "dev": "NODE_ENV=development webpack-dev-server",
-    "build": "NODE_ENV=production webpack",
-    "build-deploy": "npm run build && npm run deploy",
-    "deploy": "aws s3 rm s3://wyattades.com --recursive --include \"*.js\" --include \"*.css\" && aws s3 sync dist s3://wyattades.com/ && cf-invalidate --wait -- E1MHDHVPBNLO7M index.html"
+    "dev": "yarn && NODE_ENV=development webpack-dev-server",
+    "build": "NODE_ENV=production webpack"
   },
   "dependencies": {
     "animated": "^0.2.2",
