@@ -19,7 +19,7 @@
     "react-hot-loader": "^4.12.21",
     "react-router-dom": "^5.2.0",
     "react-transition-group": "^4.0.1",
-    "three": "^0.104.0"
+    "three": "^0.125.0"
   },
   "devDependencies": {
     "webpack-boiler": "^0.5.0"
