@@ -1,5 +1,7 @@
 # Custom
 dist/
+.blitz
+.next
 
 # Logs
 logs

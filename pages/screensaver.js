@@ -1,8 +1,7 @@
-import ReactDOM from 'react-dom';
 import React from 'react';
 
-import './styles/screensaver.scss';
-import Fluid from './components/Fluid';
+import 'styles/screensaver.scss';
+import Fluid from 'components/Fluid';
 
 const getSplashInfo = () => {
   return {
@@ -12,10 +11,10 @@ const getSplashInfo = () => {
   };
 };
 
-const App = () => (
+const ScreenSaverPage = () => (
   <>
     <Fluid getSplashInfo={getSplashInfo} />
   </>
 );
 
-ReactDOM.render(<App />, document.getElementById('root'));
+export default ScreenSaverPage;

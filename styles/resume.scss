@@ -7,15 +7,14 @@
 
 html,
 body,
-#root {
+#__next {
   display: block;
   // TEMP
   // font-family: 'Montserrat';
 }
 
 $gap: 0.25in;
-
-#root {
+#__next {
   margin: 0 auto;
   display: block;
   width: 8.5in;
@@ -24,7 +23,7 @@ $gap: 0.25in;
 }
 
 @media print {
-  #root {
+  #__next {
     margin: 0;
   }
 }

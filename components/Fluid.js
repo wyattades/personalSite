@@ -1,6 +1,6 @@
 import React, { useEffect, memo, useRef } from 'react';
 
-import createFluid from '../lib/fluid';
+import createFluid from 'lib/fluid';
 
 // const useEvent = (watcher, name, listener) => {
 //   useEffect(() => {

@@ -1,23 +1,22 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import * as Animated from 'animated/lib/targets/react-dom';
-// import {
-//   FontLoader, LoadingManager, WebGLRenderer, PerspectiveCamera, Scene, MeshPhongMaterial,
-//   Vector3, Box3, TextGeometry, Mesh, Group, DirectionalLight,
-// } from 'three';
-import { FontLoader } from 'three/src/loaders/FontLoader';
-import { LoadingManager } from 'three/src/loaders/LoadingManager';
-import { WebGLRenderer } from 'three/src/renderers/WebGLRenderer';
-import { PerspectiveCamera } from 'three/src/cameras/PerspectiveCamera';
-import { Scene } from 'three/src/scenes/Scene';
-import { MeshPhongMaterial } from 'three/src/materials/MeshPhongMaterial';
-import { Vector3 } from 'three/src/math/Vector3';
-import { Box3 } from 'three/src/math/Box3';
-import { TextGeometry } from 'three/src/geometries/TextGeometry';
-import { Mesh } from 'three/src/objects/Mesh';
-import { Group } from 'three/src/objects/Group';
-import { DirectionalLight } from 'three/src/lights/DirectionalLight';
+import {
+  FontLoader,
+  LoadingManager,
+  WebGLRenderer,
+  PerspectiveCamera,
+  Scene,
+  MeshPhongMaterial,
+  Vector3,
+  Box3,
+  TextGeometry,
+  Mesh,
+  Group,
+  DirectionalLight,
+} from 'three';
+import useAsync from 'react-use/lib/useAsync';
 
-import Orientation from '../lib/orientation';
+import Orientation from 'lib/orientation';
 
 const defaultOptions = {
   fontSize: 45,
@@ -36,14 +35,8 @@ const loader = new FontLoader(loadingManager);
 const renderText = (parent, string, options, font) => {
   // const listeners = [];
 
-  const {
-    specular,
-    fontSize,
-    thickness,
-    followRadius,
-    animateDist,
-    yPos,
-  } = options;
+  const { specular, fontSize, thickness, followRadius, animateDist, yPos } =
+    options;
 
   const renderer = new WebGLRenderer({
     alpha: true,
@@ -210,50 +203,33 @@ const renderText = (parent, string, options, font) => {
     document.removeEventListener('click', onMouseMove);
     window.removeEventListener('resize', resize);
 
-    if (orientation) orientation.dispose();
+    orientation?.dispose();
   };
 };
 
-class BlockText extends React.Component {
-  containerRef = React.createRef();
+const BlockText = ({ options, text }) => {
+  const containerRef = useRef();
 
-  componentDidMount() {
-    this.options = Object.assign(defaultOptions, this.props.options || {});
-    this.createText();
-  }
+  const { value: fontJson } = useAsync(() => import('fonts/helv.json'), []);
 
-  componentWillUnmount() {
-    this.destroyText();
-  }
+  useEffect(() => {
+    if (!fontJson) return;
 
-  createText() {
-    this.destroyText();
-
-    import('../fonts/helv.json').then((fontJson) => {
-      this.removeRenderer = renderText(
-        this.containerRef.current,
-        this.props.text,
-        this.options,
-        loader.parse(fontJson),
-      );
-    });
-  }
-
-  destroyText() {
-    this.removeRenderer && this.removeRenderer();
-    this.removeRenderer = null;
-  }
-
-  // Use min width and height to prevent webGL crash when size is 0
-  render() {
-    return (
-      <div ref={this.containerRef} style={{ minHeight: 10, minWidth: 10 }} />
+    return renderText(
+      containerRef.current,
+      text,
+      Object.assign(defaultOptions, options || {}),
+      loader.parse(fontJson),
     );
-  }
-}
+  }, [text, fontJson]);
 
-BlockText.defaultProps = {
-  text: '',
+  return (
+    // Use min width and height to prevent webGL crash when size is 0
+    <>
+      <div ref={containerRef} style={{ minHeight: 10, minWidth: 10 }} />
+      <h1 className="sr-only">{text}</h1>
+    </>
+  );
 };
 
 export default BlockText;
