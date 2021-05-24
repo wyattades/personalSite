@@ -23,7 +23,7 @@ const App = () => (
       <div className="column-divider" />
       <div className="column center-text vertical-margin">
         <p className="contact-link">
-          <a href="mailto:wyattades@gmail.com">wyattades@gmail.com</a>
+          <a href="mailto:me@wyattades.com">me@wyattades.com</a>
         </p>
         <p className="contact-link">
           <a href="https://github.com/wyattades">github.com/wyattades</a>

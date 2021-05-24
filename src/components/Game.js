@@ -83,7 +83,7 @@ export default class Game extends React.Component {
         </div>
         <p>
           <a href={`${SRC_DIR}/${game.id}.js`}>
-            <i className="fa fa-code head" />
+            <i className="fa fa-code head" aria-hidden />
             Source
           </a>
         </p>

@@ -14,7 +14,7 @@ export default ({
     {download && (
       <p>
         <a href={download}>
-          <i className="fa fa-cloud-download head" />
+          <i className="fa fa-cloud-download head" aria-hidden />
           Download Link
         </a>
       </p>
@@ -22,7 +22,7 @@ export default ({
     {url && (
       <p>
         <a href={url}>
-          <i className="fa fa-link head" />
+          <i className="fa fa-link head" aria-hidden />
           {url.includes('npmjs.com') ? 'NPM Package' : 'Live Website'}
         </a>
       </p>
@@ -30,7 +30,7 @@ export default ({
     {source && (
       <p>
         <a href={source}>
-          <i className="fa fa-code head" />
+          <i className="fa fa-code head" aria-hidden />
           Source
         </a>
       </p>
