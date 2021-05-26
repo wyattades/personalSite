@@ -204,15 +204,15 @@ body,
 .wrapper {
   margin: 0;
   padding: 0;
-  display: flex;
-  flex: 1;
-  height: 99.999vh;
+  // height: 99.999vh;
   width: 100%;
   // overflow: hidden;
   color: $color;
 }
 
 .wrapper {
+  display: flex;
+  flex: 1;
   background: $background;
   position: relative;
   & > * {

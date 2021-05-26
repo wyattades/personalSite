@@ -1,11 +1,10 @@
 import React from 'react';
 
-import 'styles/resume.scss';
 import resumeItems from 'lib/resumeItems';
 
 const ResumePage = () => {
   return (
-    <>
+    <div id="resume-root">
       <section className="columns">
         <div className="column center-text vertical-margin">
           <div className="logo">
@@ -35,7 +34,7 @@ const ResumePage = () => {
       </section>
       <h4 className="text-hr vertical-margin" style={{ marginTop: 0 }} />
       {resumeItems}
-    </>
+    </div>
   );
 };
 

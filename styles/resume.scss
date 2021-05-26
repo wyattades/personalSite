@@ -1,34 +1,37 @@
+@use "sass:math";
+
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700');
-@import './style.scss';
+// @import './style.scss';
 
 @page {
   margin: 0;
 }
 
-html,
-body,
-#__next {
-  display: block;
-  // TEMP
-  // font-family: 'Montserrat';
-}
+// html,
+// body,
+// #__next {
+//   display: block;
+//   // TEMP
+//   // font-family: 'Montserrat';
+// }
 
 $gap: 0.25in;
-#__next {
+#resume-root {
+  display: block;
   margin: 0 auto;
   display: block;
   width: 8.5in;
-  height: 11in;
+  // height: 11in; TODO: make content fit on one page?
   padding: $gap;
 }
 
 @media print {
-  #__next {
+  #resume-root {
     margin: 0;
   }
 }
 
-h1 {
+#resume-root h1 {
   margin: 0;
 }
 
@@ -40,13 +43,13 @@ h1 {
   text-align: center;
 }
 
-.vertical-margin {
+#resume-root .vertical-margin {
   padding: 0;
   // margin: $gap+0.1 0 ($gap + 0.2) 0;
   margin: $gap 0 ($gap + 0.1) 0;
 }
 
-.text-hr {
+#resume-root .text-hr {
   border-bottom: 1px solid lightgrey;
   width: auto;
   text-align: center;
@@ -55,11 +58,10 @@ h1 {
   width: 100%;
   padding: 0 0 8px 0;
   overflow: visible;
-}
-
-.text-hr > * {
-  background-color: white;
-  padding: 0 $gap/2;
+  > * {
+    background-color: white;
+    padding: 0 math.div($gap, 2);
+  }
 }
 
 .logo {
@@ -67,41 +69,41 @@ h1 {
   width: 70px;
   height: 70px;
   position: relative;
-}
 
-.logo * {
-  position: absolute;
-  font-weight: 400;
-  font-size: 28px;
-  line-height: 23px;
-}
+  * {
+    position: absolute;
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 23px;
+  }
 
-.logo :first-child {
-  top: 0;
-  left: -4px;
-}
+  :first-child {
+    top: 0;
+    left: -4px;
+  }
 
-.logo :last-child {
-  bottom: 0;
-  right: 2px;
-}
+  :last-child {
+    bottom: 0;
+    right: 2px;
+  }
 
-.logo:before {
-  content: '';
-  width: 2px;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: -1;
-  stroke-linecap: round;
-  border-right: 2px inset black;
-  -webkit-transform-origin: 0 0;
-  -ms-transform-origin: 0 0;
-  transform-origin: 0 0;
-  -webkit-transform: skewX(-45deg);
-  -ms-transform: skewX(-45deg);
-  transform: skewX(-45deg);
+  &:before {
+    content: '';
+    width: 2px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: -1;
+    stroke-linecap: round;
+    border-right: 2px inset black;
+    -webkit-transform-origin: 0 0;
+    -ms-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: skewX(-45deg);
+    -ms-transform: skewX(-45deg);
+    transform: skewX(-45deg);
+  }
 }
 
 .contact-link {
