@@ -69,13 +69,8 @@ const ShowProjectPage = ({ project }) => {
         </p>
       )}
       {!hideImage && image && (
-        <div style={{ height: 500, marginBottom: '2rem' }}>
-          <Image
-            className="shadowed"
-            layout="fill"
-            objectFit="contain"
-            src={image}
-          />
+        <div className="shadowed" style={{ marginBottom: '2rem' }}>
+          <Image width={800} height={600} objectFit="cover" src={image} />
         </div>
       )}
       {Array.isArray(desc) ? (
