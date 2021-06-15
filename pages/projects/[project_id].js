@@ -69,9 +69,20 @@ const ShowProjectPage = ({ project }) => {
         </p>
       )}
       {!hideImage && image && (
-        <Image className="shadowed" layout="fill" src={image} />
+        <div style={{ height: 500, marginBottom: '2rem' }}>
+          <Image
+            className="shadowed"
+            layout="fill"
+            objectFit="contain"
+            src={image}
+          />
+        </div>
       )}
-      {Array.isArray(desc) ? desc : desc.split('\n')}
+      {Array.isArray(desc) ? (
+        <p>{desc}</p>
+      ) : (
+        desc.split('\n').map((d, i) => <p key={i}>{d}</p>)
+      )}
     </AnimatedItems>
   );
 };

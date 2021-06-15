@@ -219,9 +219,7 @@ body,
 .wrapper {
   margin: 0;
   padding: 0;
-  // height: 99.999vh;
   width: 100%;
-  // overflow: hidden;
   color: $color;
 }
 
@@ -363,12 +361,15 @@ body,
     text-decoration: none;
     color: $color;
 
+    opacity: 1;
+    transition: opacity 0.5s, background-color 0.5s;
+
     padding: 16px;
   }
 
   &:hover {
     a {
-      color: transparent;
+      opacity: 0;
     }
     & > div {
       opacity: 1;
