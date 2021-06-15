@@ -1,12 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Layout from 'components/Layout';
 import BlockText from 'components/BlockText';
+import { useHoveredLink } from 'components/Link';
+import useDebounce from 'react-use/lib/useDebounce';
 
 const IndexPage = () => {
+  const [text, setText] = useState(null);
+  const [hoveredLink] = useHoveredLink();
+  useDebounce(
+    () => {
+      setText(hoveredLink || 'WYATT');
+    },
+    300,
+    [hoveredLink],
+  );
+
   return (
     <>
-      <BlockText text="WYATT" />
+      <BlockText text={text} />
       <div
         style={{
           display: 'flex',

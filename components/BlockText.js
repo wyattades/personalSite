@@ -32,7 +32,7 @@ const defaultOptions = {
 const loadingManager = new LoadingManager(null, null, console.error);
 const loader = new FontLoader(loadingManager);
 
-const renderText = (parent, string, options, font) => {
+const renderText = (parent, options, font) => {
   // const listeners = [];
 
   const { specular, fontSize, thickness, followRadius, animateDist, yPos } =
@@ -62,47 +62,22 @@ const renderText = (parent, string, options, font) => {
     opacity: 0,
   });
 
-  let moveX = 0;
-  // let lastW2 = 0;
-  const chars = string.split('');
-  const center = new Vector3();
-  const anchors = chars.map((char, i) => {
-    const geometry = new TextGeometry(char, {
-      font,
-      size: fontSize,
-      height: thickness,
-    });
-    const text = new Mesh(geometry, material.clone());
-    const bbox = new Box3().setFromObject(text);
-    bbox.getCenter(center);
-    text.position.sub(center);
+  let anchors = [];
 
-    const anchor = new Group();
-
-    const w2 = bbox.getSize(new Vector3()).x / 2;
-    if (i !== 0) moveX += 10;
-    moveX += w2;
-    anchor.position.x = moveX;
-    moveX += w2;
-
-    anchor.position.y = animateDist + yPos;
-    anchor.add(text);
-    scene.add(anchor);
-
-    return anchor;
-  });
-  for (const anchor of anchors) anchor.position.x -= moveX / 2;
+  const lightLookAt = new Vector3(11.45, 0, 0);
 
   const addLight = (color, x, y, z, intensity = 1) => {
     const newLight = new DirectionalLight(color, intensity);
     newLight.position.set(x, y, z);
-    newLight.lookAt(anchors[Math.floor(chars.length / 2)].position);
+    newLight.lookAt(lightLookAt);
+    // newLight.lookAt(anchors[Math.floor(chars.length / 2)].position);
     scene.add(newLight);
   };
 
+  addLight(0xffffff, 0, 1, 4, 0.3);
+
   // addLight(0xccb87a, 0, 4, 4, 1);
   // addLight(0xc9fff8, 0, 3, 1, 1);
-  addLight(0xffffff, 0, 1, 4, 0.3);
   // addLight(0xff0000, -2, 1, 1);
   // addLight(0x0000ff, 0, -1, 0.5);
   // addLight(0xffff00, 2, -1, 2);
@@ -111,7 +86,7 @@ const renderText = (parent, string, options, font) => {
 
   let mx = 0,
     my = 0;
-  let animateId;
+  // let animateId;
   let render = () => {
     let ratioX = 0;
     let ratioY = 0;
@@ -141,16 +116,16 @@ const renderText = (parent, string, options, font) => {
     renderer.setSize(w, h);
     camera.aspect = w / h;
     // Set FOV so letters fit in screen with some margin (20deg)
+    // harcoding `250` for now, was `moveX`
     camera.fov =
       20 +
       2 *
-        Math.atan(moveX / (camera.aspect * 2 * camera.position.z)) *
+        Math.atan(250 / (camera.aspect * 2 * camera.position.z)) *
         (180 / Math.PI);
     camera.updateProjectionMatrix();
     render();
   };
   window.addEventListener('resize', resize);
-  resize();
 
   const onMouseMove = (e) => {
     mx = e.clientX;
@@ -163,7 +138,7 @@ const renderText = (parent, string, options, font) => {
   let orientation;
   if ('DeviceOrientationEvent' in window) {
     const enableOrient = () => {
-      cancelAnimationFrame(animateId);
+      // cancelAnimationFrame(animateId);
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('click', onMouseMove);
     };
@@ -174,38 +149,118 @@ const renderText = (parent, string, options, font) => {
     );
   }
 
-  const animTimer = setTimeout(() => {
-    const anims = Array.from(string).map(() => new Animated.Value(0));
+  let anim, anim2;
+  let animDelay;
 
-    Animated.stagger(
-      100,
-      anims.map((anim) => Animated.spring(anim, { toValue: 1 })),
-    ).start();
+  // causes a render
+  resize();
 
-    anims.forEach((anim, i) =>
-      anim.addListener(({ value }) => {
-        anchors[i].position.y = (1 - value) * animateDist + yPos;
-
-        anchors[i].children[0].material.opacity = value;
-        render();
-      }),
-    );
-  }, 200);
-
-  render();
+  let currentText;
 
   // Returns function that removes renderer
-  return () => {
-    clearTimeout(animTimer);
-    renderer.domElement.remove();
-    cancelAnimationFrame(animateId);
+  return {
+    setText(newText) {
+      if (!newText) return;
+      if (currentText === newText) return;
 
-    // Remove event listeners
-    document.removeEventListener('mousemove', onMouseMove);
-    document.removeEventListener('click', onMouseMove);
-    window.removeEventListener('resize', resize);
+      currentText = newText;
 
-    orientation?.dispose();
+      let moveX = 0;
+
+      clearTimeout(animDelay);
+      anim?.stop();
+      // anim2?.stop();
+
+      const oldAnchors = anchors;
+      const anims2 = oldAnchors.map(() => new Animated.Value(0));
+
+      anim2 = Animated.stagger(
+        100,
+        anims2.map((an) => Animated.spring(an, { toValue: 1 })),
+      );
+
+      anim2.start();
+
+      anims2.forEach((anim, i) =>
+        anim.addListener(({ value }) => {
+          oldAnchors[i].position.z = value * animateDist + yPos;
+
+          oldAnchors[i].children[0].material.opacity = 1 - value;
+
+          render();
+
+          if (value >= 1) scene.remove(oldAnchors[i]);
+        }),
+      );
+
+      // let lastW2 = 0;
+      const chars = newText.split('');
+      const center = new Vector3();
+      anchors = chars.map((char, i) => {
+        const geometry = new TextGeometry(char, {
+          font,
+          size: fontSize,
+          height: thickness,
+        });
+        const text = new Mesh(geometry, material.clone());
+        const bbox = new Box3().setFromObject(text);
+        bbox.getCenter(center);
+        text.position.sub(center);
+
+        const anchor = new Group();
+
+        const w2 = bbox.getSize(new Vector3()).x / 2;
+        if (i !== 0) moveX += 10;
+        moveX += w2;
+        anchor.position.x = moveX;
+        moveX += w2;
+
+        anchor.position.y = animateDist + yPos;
+        anchor.add(text);
+        scene.add(anchor);
+
+        return anchor;
+      });
+      for (const anchor of anchors) anchor.position.x -= moveX / 2;
+
+      animDelay = setTimeout(() => {
+        const anims = Array.from(newText).map(() => new Animated.Value(0));
+
+        anim = Animated.stagger(
+          100,
+          anims.map((anim) => Animated.spring(anim, { toValue: 1 })),
+        );
+
+        anim.start();
+
+        anims.forEach((anim, i) =>
+          anim.addListener(({ value }) => {
+            anchors[i].position.y = (1 - value) * animateDist + yPos;
+
+            anchors[i].children[0].material.opacity = value;
+            render();
+          }),
+        );
+      }, 200);
+    },
+
+    dispose() {
+      clearTimeout(animDelay);
+
+      anim?.stop();
+      anim2?.stop();
+
+      renderer.dispose();
+      renderer.domElement.remove();
+      // cancelAnimationFrame(animateId);
+
+      // Remove event listeners
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('click', onMouseMove);
+      window.removeEventListener('resize', resize);
+
+      orientation?.dispose();
+    },
   };
 };
 
@@ -214,15 +269,26 @@ const BlockText = ({ options, text }) => {
 
   const { value: fontJson } = useAsync(() => import('fonts/helv.json'), []);
 
+  const blockText = useRef(null);
+
   useEffect(() => {
     if (!fontJson) return;
 
-    return renderText(
+    blockText.current = renderText(
       containerRef.current,
-      text,
       { ...defaultOptions, ...(options || {}) },
       loader.parse(fontJson),
     );
+
+    return () => {
+      blockText.current.dispose();
+    };
+  }, [fontJson]);
+
+  useEffect(() => {
+    if (!fontJson || !blockText.current) return;
+
+    blockText.current.setText(text);
   }, [text, fontJson]);
 
   return (
