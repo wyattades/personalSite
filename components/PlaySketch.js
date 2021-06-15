@@ -1,8 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import useAsync from 'react-use/lib/useAsync';
 
-import Link, { GoBackLink } from 'components/Link';
-import Layout from 'components/Layout';
+import { GoBackLink } from 'components/Link';
 import AnimatedItems from 'components/AnimatedItems';
 
 const HEIGHT = 600;

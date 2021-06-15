@@ -5,7 +5,6 @@ import CSSTransition from 'react-transition-group/CSSTransition';
 import TransitionGroup from 'react-transition-group/TransitionGroup';
 
 import Nav from 'components/Nav';
-import AnimatedItems from 'components/AnimatedItems';
 
 const Layout = ({
   children,

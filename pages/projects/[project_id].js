@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Layout from 'components/Layout';
 import projects from 'lib/projects';
 import PlaySketch from 'components/PlaySketch';
-import Link, { GoBackLink } from 'components/Link';
+import { GoBackLink } from 'components/Link';
 import AnimatedItems from 'components/AnimatedItems';
 
 export const getStaticProps = async ({ params: { project_id } }) => {
