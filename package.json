@@ -5,7 +5,7 @@
   "description": "The portfolio website of Wyatt Ades",
   "scripts": {
     "lint": "eslint --ignore-path .gitignore .",
-    "build-resume": "electron-pdf http://localhost:3000/resume ./public/resume.pdf",
+    "build-resume": "rm -f public/resume.pdf && electron-pdf http://localhost:3000/resume $(pwd)/public/resume.pdf -d",
     "dev": "yarn && NODE_ENV=development next dev",
     "build": "NODE_ENV=production next build"
   },
@@ -14,11 +14,11 @@
     "clsx": "^1.1.1",
     "font-awesome": "^4.7.0",
     "java-to-javascript": "^0.1.15",
-    "next": "^10.2.2",
+    "next": "^10.2.3",
     "next-seo": "^4.24.0",
     "p5": "^0.8.0",
-    "react": "^17.0.02",
-    "react-dom": "^17.0.02",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "react-transition-group": "^4.0.1",
     "react-use": "^17.2.4",
     "sass": "^1.34.0",

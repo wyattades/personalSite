@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 import Layout from 'components/Layout';
 import projects from 'lib/projects';
@@ -37,6 +38,8 @@ const ShowProjectPage = ({ project }) => {
 
   const { title, desc, download, url, source, image, hideImage } = project;
 
+  const isNPM = !!url?.includes('npmjs.com');
+
   return (
     <AnimatedItems className="content" firstGoLeft dist={24}>
       <GoBackLink href="/projects" />
@@ -53,7 +56,7 @@ const ShowProjectPage = ({ project }) => {
         <p>
           <a href={url}>
             <i className="fa fa-link head" aria-hidden />
-            {url.includes('npmjs.com') ? 'NPM Package' : 'Live Website'}
+            {isNPM ? 'NPM Package' : 'Live Website'}
           </a>
         </p>
       )}
@@ -66,20 +69,13 @@ const ShowProjectPage = ({ project }) => {
         </p>
       )}
       {!hideImage && image && (
-        <div
-          className="image shadowed"
-          style={{ backgroundImage: `url("${image}")` }}
-        />
+        <Image className="shadowed" layout="fill" src={image} />
       )}
       {Array.isArray(desc) ? desc : desc.split('\n')}
     </AnimatedItems>
   );
 };
 
-ShowProjectPage.getLayout = ({ children }) => (
-  <Layout >
-    {children}
-  </Layout>
-);
+ShowProjectPage.getLayout = ({ children }) => <Layout>{children}</Layout>;
 
 export default ShowProjectPage;

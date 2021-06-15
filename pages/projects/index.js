@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import TransitionGroup from 'react-transition-group/TransitionGroup';
 import * as Animated from 'animated/lib/targets/react-dom';
 import useTimeoutFn from 'react-use/lib/useTimeoutFn';
+import Image from 'next/image';
 
 import projects from 'lib/projects';
 import Layout from 'components/Layout';
 import Link from 'components/Link';
 import { useReducedMotion } from 'lib/hooks';
 
+const projectItems = projects.filter((p) => !p.noListing);
+
 const ProjectsPage = () => {
   const [state] = useState(() => ({
-    animations: projects.map(() => new Animated.Value(0)),
+    animations: projectItems.map(() => new Animated.Value(0)),
     animation: new Animated.Value(0),
   }));
 
@@ -45,25 +48,25 @@ const ProjectsPage = () => {
         </p>
       </Animated.div>
       <TransitionGroup component="div" className="box-list">
-        {projects
-          .filter((p) => !p.noListing)
-          .map((p, i) => {
-            const interp2 = state.animations[i].interpolate({
-              inputRange: [0, 1],
-              outputRange: ['12px', '0px'],
-            });
-            const style2 = {
-              opacity: state.animations[i],
-              transform: Animated.template`translate3d(0,${interp2},0)`,
-              backgroundImage: `url("${p.image}")`,
-            };
+        {projectItems.map((p, i) => {
+          const interp2 = state.animations[i].interpolate({
+            inputRange: [0, 1],
+            outputRange: ['12px', '0px'],
+          });
+          const style2 = {
+            opacity: state.animations[i],
+            transform: Animated.template`translate3d(0,${interp2},0)`,
+          };
 
-            return (
-              <Animated.div key={p.id} className="box-link" style={style2}>
-                <Link href={`/projects/${p.id}`}>{p.title}</Link>
-              </Animated.div>
-            );
-          })}
+          return (
+            <Animated.div key={p.id} className="box-link" style={style2}>
+              {p.image ? (
+                <Image src={p.image} layout="fill" objectFit="cover" />
+              ) : null}
+              <Link href={`/projects/${p.id}`}>{p.title}</Link>
+            </Animated.div>
+          );
+        })}
       </TransitionGroup>
     </>
   );

@@ -1,8 +1,10 @@
 import React from 'react';
 
-import resumeItems from 'lib/resumeItems';
+import { getResumeItems } from 'lib/resumeItems';
 import Layout from 'components/Layout';
 import AnimatedItems from 'components/AnimatedItems';
+
+const resumeItems = getResumeItems();
 
 const AboutPage = () => {
   return (

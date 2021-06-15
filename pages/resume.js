@@ -1,26 +1,34 @@
 import React from 'react';
 
-import resumeItems from 'lib/resumeItems';
+import { getResumeItems } from 'lib/resumeItems';
+
+const resumeItems = getResumeItems(4);
 
 const ResumePage = () => {
   return (
     <div id="resume-root">
-      <section className="columns">
-        <div className="column center-text vertical-margin">
+      <section
+        className="columns pad-horizontal"
+        style={{
+          alignItems: 'center',
+          paddingTop: '0.5rem',
+          paddingBottom: '1rem',
+        }}
+      >
+        <div className="column center-text" style={{ userSelect: 'none' }}>
           <div className="logo">
             <span>W</span>
             <span>A</span>
           </div>
         </div>
         <div className="column-divider" />
-        <div className="column center-text vertical-margin">
-          <br />
+        <div className="column center-text">
           <h1>
-            <a href="https://wyattades.com">WYATT ADES</a>
+            <a href="https://wyattades.com">Wyatt Ades</a>
           </h1>
         </div>
         <div className="column-divider" />
-        <div className="column center-text vertical-margin">
+        <div className="column center-text">
           <p className="contact-link">
             <a href="mailto:me@wyattades.com">me@wyattades.com</a>
           </p>

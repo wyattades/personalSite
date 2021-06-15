@@ -1,22 +1,23 @@
 import React from 'react';
 
 import Link from 'components/Link';
-import games from 'lib/games';
+import projects from 'lib/projects';
 
 import ShowProjectPage from './[project_id]';
+
+const games = projects.filter((p) => p.isGame);
 
 const GamesPage = () => {
   return (
     <ShowProjectPage
       project={{
         id: 'games',
-        title: 'Other Games',
-        image:
-          'https://gifimage.net/wp-content/uploads/2018/04/rainbow-gif-10.gif',
+        title: 'Games!',
+        image: '/images/games.gif',
         hideImage: true,
         desc: [
           <p key="_">
-            Some of the games I've made while learning to code!
+            Some of the games I've made for clients or for learning!
             <br />
             <br />
           </p>,
