@@ -61,7 +61,7 @@ const ProjectsPage = () => {
           return (
             <Animated.div key={p.id} className="box-link" style={style2}>
               {p.image ? (
-                <Image src={p.image} layout="fill" objectFit="cover" />
+                <Image src={p.image} layout="fill" objectFit="cover" alt="" />
               ) : null}
               <Link href={`/projects/${p.id}`}>{p.title}</Link>
             </Animated.div>

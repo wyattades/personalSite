@@ -1,4 +1,4 @@
-# <strong>Wyatt Ades</strong> - Personal Site
+# Wyatt Ades - Personal Site
 
 ## Technologies
 

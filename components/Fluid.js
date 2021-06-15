@@ -36,7 +36,21 @@ const Fluid = ({ getSplashInfo }) => {
     };
   }, []);
 
-  return <canvas ref={canvasRef} className="fluid-canvas" />;
+  return (
+    <>
+      <canvas ref={canvasRef} />
+      <style jsx>{`
+        canvas {
+          margin: 0;
+          padding: 0;
+          width: 100%;
+          height: 100vh;
+          display: block;
+          overflow: hidden;
+        }
+      `}</style>
+    </>
+  );
 };
 
 export default memo(Fluid);

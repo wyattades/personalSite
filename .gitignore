@@ -2,6 +2,7 @@
 dist/
 .blitz
 .next
+tmp/
 
 # Logs
 logs

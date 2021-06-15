@@ -2,9 +2,9 @@ import React from 'react';
 import Head from 'next/head';
 import { DefaultSeo } from 'next-seo';
 
+import 'font-awesome/css/font-awesome.css';
 import 'styles/style.scss';
 import 'styles/resume.scss';
-import 'styles/screensaver.scss';
 
 const googleAnalytics =
   process.env.NODE_ENV === 'production' ? 'UA-105229811-1' : null;

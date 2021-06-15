@@ -2,6 +2,7 @@ import React from 'react';
 
 import Link from 'components/Link';
 import projects from 'lib/projects';
+import gamesImage from 'images/project_images/games.gif';
 
 import ShowProjectPage from './[project_id]';
 
@@ -13,16 +14,16 @@ const GamesPage = () => {
       project={{
         id: 'games',
         title: 'Games!',
-        image: '/images/games.gif',
+        image: gamesImage.src,
         hideImage: true,
         desc: [
           <p key="_">
-            Some of the games I've made for clients or for learning!
+            Some of the games I&rsquo;ve made for clients or for learning!
             <br />
             <br />
           </p>,
-        ].concat(
-          games.map((game) => (
+
+          ...games.map((game) => (
             <p key={game.id}>
               🎮 &nbsp;
               {game.url ? (
@@ -33,7 +34,7 @@ const GamesPage = () => {
               {game.desc && `: ${game.desc}`}
             </p>
           )),
-        ),
+        ],
       }}
     />
   );

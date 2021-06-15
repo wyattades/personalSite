@@ -1,5 +1,4 @@
 @use "sass:math";
-@import '~font-awesome/css/font-awesome.css';
 
 $easing: ease;
 
@@ -41,17 +40,17 @@ p {
   letter-spacing: 0.5px;
 }
 h1 {
-  font-weight: 500;
+  font-weight: 600;
   font-size: 36px;
   letter-spacing: 6px;
 }
 h2 {
-  font-weight: 500;
+  font-weight: 600;
   font-size: 28px;
   letter-spacing: 6px;
 }
 h3 {
-  font-weight: 500;
+  font-weight: 600;
   font-size: 18px;
   letter-spacing: 3px;
 }
@@ -75,6 +74,13 @@ ol {
   padding-left: 14px;
 }
 
+.resume-title {
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
 .help {
   // position: absolute;
   // top: 100%;
@@ -92,7 +98,7 @@ ol {
 }
 
 .item-date {
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .item-title :first-child {
@@ -101,7 +107,7 @@ ol {
 }
 
 .item-title :nth-child(2) {
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .item-title :nth-child(2):before {
@@ -125,12 +131,7 @@ a:not(:hover) {
   text-decoration: none;
 }
 .pad-horizontal {
-  padding: 0 0.5in;
-}
-.columns {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  padding: 0 0.25in;
 }
 
 .container {
@@ -193,17 +194,19 @@ a:not(:hover) {
   }
 }
 
-.flex-table {
-  display: flex;
-  flex-direction: column;
-  p {
-    display: flex;
-  }
-  span:first-child {
-    display: flex;
+dl.expertise-table {
+  @extend p;
+  display: block;
+  dt {
+    display: inline-block;
     font-weight: 600;
     min-width: 180px;
-    flex-basis: 180px;
+    white-space: nowrap;
+  }
+  dd {
+    display: inline-block;
+    margin: 0;
+    white-space: nowrap;
   }
 }
 

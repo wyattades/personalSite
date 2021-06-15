@@ -27,12 +27,14 @@ const AnimatedItems = ({ children, firstGoLeft, dist = 12, className }) => {
       {React.Children.map(children, (item, i) => {
         const left = i === 0 && firstGoLeft;
 
-        const interp = state.animations[i].interpolate({
+        const anim = state.animations[i];
+
+        const interp = anim.interpolate({
           inputRange: [0, 1],
           outputRange: [dist, 0],
         });
         const style = {
-          opacity: state.animations[i],
+          opacity: anim,
           transform: Animated.template`translate3d(${left ? interp : 0}px,${
             left ? 0 : interp
           }px,0)`,

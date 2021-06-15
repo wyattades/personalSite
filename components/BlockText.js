@@ -93,22 +93,6 @@ const renderText = (parent, string, options, font) => {
   });
   for (const anchor of anchors) anchor.position.x -= moveX / 2;
 
-  const resize = () => {
-    const { clientWidth: w, clientHeight: h } = parent;
-
-    renderer.setSize(w, h);
-    camera.aspect = w / h;
-    // Set FOV so letters fit in screen with some margin (20deg)
-    camera.fov =
-      20 +
-      2 *
-        Math.atan(moveX / (camera.aspect * 2 * camera.position.z)) *
-        (180 / Math.PI);
-    camera.updateProjectionMatrix();
-  };
-  window.addEventListener('resize', resize);
-  resize();
-
   const addLight = (color, x, y, z, intensity = 1) => {
     const newLight = new DirectionalLight(color, intensity);
     newLight.position.set(x, y, z);
@@ -150,6 +134,24 @@ const renderText = (parent, string, options, font) => {
 
     // animateId = requestAnimationFrame(render);
   };
+
+  const resize = () => {
+    const { clientWidth: w, clientHeight: h } = parent;
+
+    renderer.setSize(w, h);
+    camera.aspect = w / h;
+    // Set FOV so letters fit in screen with some margin (20deg)
+    camera.fov =
+      20 +
+      2 *
+        Math.atan(moveX / (camera.aspect * 2 * camera.position.z)) *
+        (180 / Math.PI);
+    camera.updateProjectionMatrix();
+    render();
+  };
+  window.addEventListener('resize', resize);
+  resize();
+
   const onMouseMove = (e) => {
     mx = e.clientX;
     my = e.clientY;
@@ -218,7 +220,7 @@ const BlockText = ({ options, text }) => {
     return renderText(
       containerRef.current,
       text,
-      Object.assign(defaultOptions, options || {}),
+      { ...defaultOptions, ...(options || {}) },
       loader.parse(fontJson),
     );
   }, [text, fontJson]);
@@ -226,7 +228,15 @@ const BlockText = ({ options, text }) => {
   return (
     // Use min width and height to prevent webGL crash when size is 0
     <>
-      <div ref={containerRef} style={{ minHeight: 10, minWidth: 10 }} />
+      <div
+        ref={containerRef}
+        style={{
+          minHeight: 10,
+          minWidth: 10,
+          maxWidth: 1600,
+          margin: '0 auto',
+        }}
+      />
       <h1 className="sr-only">{text}</h1>
     </>
   );

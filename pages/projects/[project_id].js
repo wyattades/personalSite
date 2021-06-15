@@ -36,7 +36,16 @@ export const getStaticPaths = async () => {
 const ShowProjectPage = ({ project }) => {
   if (project.p5Sketch) return <PlaySketch game={project} />;
 
-  const { title, desc, download, url, source, image, hideImage } = project;
+  const {
+    title,
+    desc,
+    download,
+    url,
+    source,
+    image,
+    imageAspectRatio: iar,
+    hideImage,
+  } = project;
 
   const isNPM = !!url?.includes('npmjs.com');
 
@@ -70,14 +79,24 @@ const ShowProjectPage = ({ project }) => {
       )}
       {!hideImage && image && (
         <div className="shadowed" style={{ marginBottom: '2rem' }}>
-          <Image width={800} height={600} objectFit="cover" src={image} />
+          <Image
+            width={800}
+            height={iar ? 800 * iar : 600}
+            objectFit="cover"
+            src={image}
+            alt={`Image of ${title}`}
+          />
         </div>
       )}
-      {Array.isArray(desc) ? (
-        <p>{desc}</p>
-      ) : (
-        desc.split('\n').map((d, i) => <p key={i}>{d}</p>)
-      )}
+      {Array.isArray(desc)
+        ? desc
+        : desc.split('\n').map((d, i) => <p key={i}>{d}</p>)}
+
+      <style jsx>{`
+        .shadowed > :global(*) {
+          display: block !important;
+        }
+      `}</style>
     </AnimatedItems>
   );
 };

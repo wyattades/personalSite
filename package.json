@@ -5,7 +5,7 @@
   "description": "The portfolio website of Wyatt Ades",
   "scripts": {
     "lint": "eslint --ignore-path .gitignore .",
-    "build-resume": "rm -f public/resume.pdf && electron-pdf http://localhost:3000/resume $(pwd)/public/resume.pdf -d",
+    "build-resume": "node scripts/buildResume.js",
     "dev": "yarn && NODE_ENV=development next dev",
     "build": "NODE_ENV=production next build"
   },
@@ -14,7 +14,7 @@
     "clsx": "^1.1.1",
     "font-awesome": "^4.7.0",
     "java-to-javascript": "^0.1.15",
-    "next": "^10.2.3",
+    "next": "^11.0.0",
     "next-seo": "^4.24.0",
     "p5": "^0.8.0",
     "react": "^17.0.2",
@@ -26,11 +26,13 @@
   },
   "devDependencies": {
     "@types/react": "^17.0.6",
-    "babel-eslint": "^10.1.0",
-    "electron-pdf": "^10.0.2",
-    "eslint": "^7.27.0",
+    "cheerio": "^1.0.0-rc.10",
+    "eslint": "^7.28.0",
+    "eslint-config-next": "^11.0.0",
+    "node-fetch": "^2.6.1",
     "prettier": "^2.3.0",
-    "typescript": "^4.2.4"
+    "puppeteer": "^10.0.0",
+    "typescript": "^4.3.2"
   },
   "repository": {
     "type": "git",
