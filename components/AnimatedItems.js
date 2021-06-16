@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import * as Animated from 'animated/lib/targets/react-dom';
 import TransitionGroup from 'react-transition-group/TransitionGroup';
-import useTimeoutFn from 'react-use/lib/useTimeoutFn';
+import { useTimeoutFn } from 'react-use';
 
 import { useReducedMotion } from 'lib/hooks';
 

@@ -7,10 +7,14 @@
     "lint": "eslint --ignore-path .gitignore .",
     "build-resume": "node scripts/buildResume.js",
     "dev": "yarn && NODE_ENV=development next dev",
-    "build": "NODE_ENV=production next build"
+    "build": "NODE_ENV=production next build",
+    "start": "NODE_ENV=production next start"
   },
   "dependencies": {
+    "@next/bundle-analyzer": "^11.0.0",
+    "@react-icons/all-files": "^4.1.0",
     "animated": "^0.2.2",
+    "babel-plugin-import": "^1.13.3",
     "clsx": "^1.1.1",
     "font-awesome": "^4.7.0",
     "java-to-javascript": "^0.1.15",

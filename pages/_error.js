@@ -3,10 +3,8 @@ import Layout from 'components/Layout';
 
 const ErrorPage = ({ error }) => (
   <Layout>
-    <div className="page">
-      <div className="layers">
-        <BlockText text={(error?.code ?? 404).toString()} />
-      </div>
+    <div className="layers">
+      <BlockText text={(error?.code ?? 404).toString()} />
     </div>
   </Layout>
 );

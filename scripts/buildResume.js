@@ -34,22 +34,34 @@ const callOpenHtmlToPdf = async (type, html, outFile) => {
   }
 };
 
-const getHtml = async (outFile) => {
+const HOST = 'http://localhost:3000';
+
+const getPlainHtml = async (outFile) => {
   // NOTE: make sure xlaunch is running if using WSL2
   const browser = await puppeteer.launch();
 
   const page = await browser.newPage();
 
   // NOTE: make sure the dev server is running
-  await page.goto('http://localhost:3000/resume');
+  await page.goto(HOST + '/resume');
 
-  const pageHtml = await page.evaluate(
-    () => document.documentElement.outerHTML,
-  );
+  const pageHtml = await page.content();
 
   await browser.close();
 
   const $ = cheerio.load(pageHtml);
+
+  for (const el of $('link[rel="stylesheet"][href]').toArray()) {
+    const res = await fetch(new URL(el.attribs.href, HOST).href);
+    const ct = res.headers.get('content-type') || '';
+    if (!ct.includes('text/css'))
+      throw new Error('Bad css content-type: ' + ct);
+
+    const css = await res.text();
+    $('head').append(
+      `<style data-from-href="${el.attribs.href}">${css}</style>`,
+    );
+  }
 
   // remove unnecessary elements
   $(
@@ -60,10 +72,8 @@ const getHtml = async (outFile) => {
     .contents()
     .each((_, el) => {
       if (el.type === 'text') {
-        // remove <style> tag containing font-awesome, it breaks the renderer :/ Also we don't use it in the resume html
-        if (el.data.includes('//fontawesome.io/license')) $(el.parent).remove();
         // remove source-map comments
-        else el.data = el.data.replace(/\/\*# sourceMappingURL=.*?\*\/$/, '');
+        el.data = el.data.replace(/\/\*# sourceMappingURL=.*?\*\/$/, '');
       }
     });
 
@@ -82,7 +92,7 @@ const getHtml = async (outFile) => {
 };
 
 (async () => {
-  const outHtml = await getHtml('tmp/resume.html');
+  const outHtml = await getPlainHtml('tmp/resume.html');
 
   await callOpenHtmlToPdf('logs', outHtml, 'tmp/build-resume-logs.txt');
   await callOpenHtmlToPdf('pdf', outHtml, 'public/resume.pdf');

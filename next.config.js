@@ -1,4 +1,4 @@
-module.exports = {
+const nextConfig = {
   async redirects() {
     return [
       {
@@ -9,3 +9,7 @@ module.exports = {
     ];
   },
 };
+
+module.exports = require('@next/bundle-analyzer')({
+  enabled: process.env.NODE_ENV === 'production' && !process.env.VERCEL_URL,
+})(nextConfig);

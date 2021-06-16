@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaLink } from '@react-icons';
 
 import { getResumeItems } from 'lib/resumeItems';
 import Layout from 'components/Layout';
@@ -13,7 +14,7 @@ const AboutPage = () => {
         <div className="space-between">
           <h1>About Me</h1>
           <a href="/resume.pdf">
-            <i className="fa fa-link head" aria-hidden />
+            <FaLink className="icon-head" aria-hidden />
             Resume PDF
           </a>
         </div>

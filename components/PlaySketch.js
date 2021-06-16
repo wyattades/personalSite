@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import useAsync from 'react-use/lib/useAsync';
+import { useAsync } from 'react-use';
+import { FaCode } from '@react-icons';
 
 import { GoBackLink } from 'components/Link';
 import AnimatedItems from 'components/AnimatedItems';
@@ -65,7 +66,7 @@ const PlaySketch = ({ game }) => {
       </div>
       <p>
         <a href={`${SRC_DIR}/${game.id}.js`}>
-          <i className="fa fa-code head" aria-hidden />
+          <FaCode className="icon-head" aria-hidden />
           Source
         </a>
       </p>

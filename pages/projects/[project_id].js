@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import { FaCloudDownloadAlt, FaLink, FaCode } from '@react-icons';
 
 import Layout from 'components/Layout';
 import projects from 'lib/projects';
@@ -56,7 +57,7 @@ const ShowProjectPage = ({ project }) => {
       {download && (
         <p>
           <a href={download}>
-            <i className="fa fa-cloud-download head" aria-hidden />
+            <FaCloudDownloadAlt className="icon-head" aria-hidden />
             Download Link
           </a>
         </p>
@@ -64,7 +65,7 @@ const ShowProjectPage = ({ project }) => {
       {url && (
         <p>
           <a href={url}>
-            <i className="fa fa-link head" aria-hidden />
+            <FaLink className="icon-head" aria-hidden />
             {isNPM ? 'NPM Package' : 'Live Website'}
           </a>
         </p>
@@ -72,7 +73,7 @@ const ShowProjectPage = ({ project }) => {
       {source && (
         <p>
           <a href={source}>
-            <i className="fa fa-code head" aria-hidden />
+            <FaCode className="icon-head" aria-hidden />
             Source
           </a>
         </p>

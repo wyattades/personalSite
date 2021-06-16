@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import BLink from 'next/link';
-import { createGlobalState } from 'react-use';
+import { createGlobalState } from 'react-use/lib/factory/createGlobalState';
 
 export const useHoveredLink = createGlobalState();
 

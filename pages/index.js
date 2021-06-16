@@ -1,35 +1,34 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useThrottle } from 'react-use';
 
 import Layout from 'components/Layout';
 import BlockText from 'components/BlockText';
 import { useHoveredLink } from 'components/Link';
-import useDebounce from 'react-use/lib/useDebounce';
 
 const IndexPage = () => {
-  const [text, setText] = useState(null);
   const [hoveredLink] = useHoveredLink();
-  useDebounce(
-    () => {
-      setText(hoveredLink || 'WYATT');
-    },
-    300,
-    [hoveredLink],
-  );
+
+  const text = useThrottle(hoveredLink || 'WYATT', 1000);
 
   return (
     <>
       <BlockText text={text} />
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <h1 style={{ marginTop: 250, textTransform: 'uppercase' }}>
-          Personal Site
-        </h1>
+      <div>
+        <h1>Personal Site</h1>
       </div>
+
+      <style jsx>{`
+        div {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        h1 {
+          margin-top: 250px;
+          text-transform: uppercase;
+          text-align: center;
+        }
+      `}</style>
     </>
   );
 };

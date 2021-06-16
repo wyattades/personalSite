@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import TransitionGroup from 'react-transition-group/TransitionGroup';
 import * as Animated from 'animated/lib/targets/react-dom';
-import useTimeoutFn from 'react-use/lib/useTimeoutFn';
+import { useTimeoutFn } from 'react-use';
 import Image from 'next/image';
 
 import projects from 'lib/projects';

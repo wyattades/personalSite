@@ -14,7 +14,7 @@ import {
   Group,
   DirectionalLight,
 } from 'three';
-import useAsync from 'react-use/lib/useAsync';
+import { useAsync } from 'react-use';
 
 import Orientation from 'lib/orientation';
 
@@ -223,24 +223,24 @@ const renderText = (parent, options, font) => {
       });
       for (const anchor of anchors) anchor.position.x -= moveX / 2;
 
+      const anims = Array.from(newText).map(() => new Animated.Value(0));
+
+      anim = Animated.stagger(
+        100,
+        anims.map((anim) => Animated.spring(anim, { toValue: 1 })),
+      );
+
+      anims.forEach((anim, i) =>
+        anim.addListener(({ value }) => {
+          anchors[i].position.y = (1 - value) * animateDist + yPos;
+
+          anchors[i].children[0].material.opacity = value;
+          render();
+        }),
+      );
+
       animDelay = setTimeout(() => {
-        const anims = Array.from(newText).map(() => new Animated.Value(0));
-
-        anim = Animated.stagger(
-          100,
-          anims.map((anim) => Animated.spring(anim, { toValue: 1 })),
-        );
-
         anim.start();
-
-        anims.forEach((anim, i) =>
-          anim.addListener(({ value }) => {
-            anchors[i].position.y = (1 - value) * animateDist + yPos;
-
-            anchors[i].children[0].material.opacity = value;
-            render();
-          }),
-        );
       }, 200);
     },
 
@@ -297,6 +297,7 @@ const BlockText = ({ options, text }) => {
       <div
         ref={containerRef}
         style={{
+          pointerEvents: 'none',
           minHeight: 10,
           minWidth: 10,
           maxWidth: 1600,
@@ -308,4 +309,4 @@ const BlockText = ({ options, text }) => {
   );
 };
 
-export default BlockText;
+export default React.memo(BlockText);

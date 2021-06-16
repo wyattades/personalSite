@@ -23,7 +23,11 @@ const ResumePage = () => {
       >
         <div className="pdf-columns">
           <div className="column">
-            <div className="logo" style={{ userSelect: 'none' }} aria-hidden>
+            <div
+              className="logo"
+              style={{ userSelect: 'none' }}
+              aria-label="logo of initials"
+            >
               <span>W</span>
               <span>A</span>
             </div>

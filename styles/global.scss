@@ -13,11 +13,33 @@ $error: #ff2323;
 $container: 800px;
 
 @import './transition';
+@import './resume';
 
-// Fontawesome rules
-.fa.head {
+// credit to FontAwesome:
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+.sr-only-focusable:active,
+.sr-only-focusable:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+}
+
+.icon-head {
   margin-right: 8px;
-  font-size: 1.3em;
+  font-size: 1.3rem;
+  vertical-align: bottom;
 }
 
 h1,
