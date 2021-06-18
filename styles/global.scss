@@ -16,7 +16,7 @@ $container: 800px;
 @import './resume';
 
 // TODO: dotted background
-/*html,
+html,
 body,
 #__next,
 .wrapper,
@@ -24,7 +24,7 @@ main {
   height: 100%;
 }
 
-.wrapper::before {
+.wrapper.index-page::before {
   content: '';
   display: block;
   position: absolute;
@@ -33,16 +33,24 @@ main {
   width: 100%;
   height: 100%;
   opacity: 0;
-  //z-index: -1;
 
-  transition: opacity 2s ease;
+  $d: 15px;
   background-image: radial-gradient(#cecece 1px, transparent 0);
-  background-size: 34px 34px;
-  background-position: -16px -16px;
+  background-size: ($d * 2) ($d * 2);
+  background-position: (1 - $d) (1 - $d);
+
+  animation: fadeInOpacity 2s ease;
+  animation-fill-mode: forwards;
 }
-.wrapper.index-page::before {
-  opacity: 1;
-}*/
+
+@keyframes fadeInOpacity {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 
 // credit to FontAwesome:
 .sr-only {

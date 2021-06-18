@@ -16,7 +16,7 @@ import {
 } from 'three';
 import { useAsync } from 'react-use';
 
-import Orientation from 'lib/orientation';
+import listenToOrientation from 'lib/orientation';
 
 const defaultOptions = {
   fontSize: 45,
@@ -62,6 +62,7 @@ const renderText = (parent, options, font) => {
     opacity: 0,
   });
 
+  /** @type {THREE.Group[]} */
   let anchors = [];
 
   const lightLookAt = new Vector3(11.45, 0, 0);
@@ -84,26 +85,27 @@ const renderText = (parent, options, font) => {
   // addLight(0x0000ff, 20, 0, 50);
   // addLight(0xffff00, -100, 0, 50);
 
-  let mx = 0,
-    my = 0;
+  let mx = null,
+    my = null;
   // let animateId;
   let render = () => {
-    let ratioX = 0;
-    let ratioY = 0;
+    if (mx != null && my != null) {
+      let ratioX = 0;
+      let ratioY = 0;
 
-    const { clientWidth: w, clientHeight: h } = parent;
+      const { clientWidth: w, clientHeight: h } = parent;
 
-    ratioX = mx / w - 0.5;
-    ratioY = my / h - 0.5;
+      ratioX = mx / w - 0.5;
+      ratioY = my / h - 0.5;
 
-    const target = new Vector3(
-      ratioX * followRadius,
-      -ratioY * followRadius,
-      2 * followRadius,
-    );
-    // actualTarget.add(target.clone().sub(actualTarget).multiplyScalar(followRate));
+      const target = new Vector3(
+        ratioX * followRadius,
+        -ratioY * followRadius,
+        2 * followRadius,
+      );
 
-    for (const anchor of anchors) anchor.lookAt(target);
+      for (const anchor of anchors) anchor.lookAt(target);
+    }
 
     renderer.render(scene, camera);
 
@@ -137,15 +139,22 @@ const renderText = (parent, options, font) => {
 
   let orientation;
   if ('DeviceOrientationEvent' in window) {
-    const enableOrient = () => {
-      // cancelAnimationFrame(animateId);
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('click', onMouseMove);
-    };
-    orientation = Orientation(
-      () => renderer.render(scene, camera),
-      enableOrient,
-      anchors,
+    orientation = listenToOrientation(
+      () => {
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('click', onMouseMove);
+        mx = my = null;
+      },
+      (quaternion) => {
+        for (let obj of anchors) {
+          // TODO: necessary?
+          if (obj.rotation.order !== 'YXZ') obj.rotation.reorder('YXZ');
+
+          obj.quaternion.copy(quaternion);
+        }
+
+        renderer.render(scene, camera);
+      },
     );
   }
 
@@ -157,7 +166,6 @@ const renderText = (parent, options, font) => {
 
   let currentText;
 
-  // Returns function that removes renderer
   return {
     setText(newText) {
       if (!newText) return;
@@ -202,10 +210,12 @@ const renderText = (parent, options, font) => {
           size: fontSize,
           height: thickness,
         });
+
         const text = new Mesh(geometry, material.clone());
         const bbox = new Box3().setFromObject(text);
         bbox.getCenter(center);
         text.position.sub(center);
+        text.position.y = -fontSize / 2;
 
         const anchor = new Group();
 
@@ -223,7 +233,7 @@ const renderText = (parent, options, font) => {
       });
       for (const anchor of anchors) anchor.position.x -= moveX / 2;
 
-      const anims = Array.from(newText).map(() => new Animated.Value(0));
+      const anims = anchors.map(() => new Animated.Value(0));
 
       anim = Animated.stagger(
         100,
