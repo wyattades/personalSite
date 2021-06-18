@@ -65,7 +65,7 @@ const getPlainHtml = async (outFile) => {
 
   // remove unnecessary elements
   $(
-    'next-route-announcer, script, link, noscript, #__next-build-watcher, [data-next-hide-fouc]',
+    'script, link, noscript, meta:not([name="description"]), next-route-announcer, #__next-build-watcher, [data-next-hide-fouc]',
   ).remove();
 
   $('style')
