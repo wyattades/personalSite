@@ -2,9 +2,19 @@ const HOST_URL = process.env.VERCEL_URL
   ? 'https://wyattades.com'
   : 'http://localhost:3000';
 
+const staticFiles = ['sitemap.xml', 'robots.txt'];
+
+/** @type {import('next/dist/next-server/server/config').NextConfig} */
 const nextConfig = {
   env: {
     HOST_URL,
+  },
+
+  async rewrites() {
+    return staticFiles.map((f) => ({
+      source: '/' + f,
+      destination: '/api/static_files',
+    }));
   },
 
   async redirects() {
