@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaEnvelope, FaGithub, FaLinkedin, FaSpotify } from '@react-icons';
+import { NextSeo } from 'next-seo';
 
 import Layout from 'components/Layout';
 import AnimatedItems from 'components/AnimatedItems';
@@ -39,6 +40,11 @@ const ContactPage = () => {
   );
 };
 
-ContactPage.getLayout = ({ children }) => <Layout>{children}</Layout>;
+ContactPage.getLayout = ({ children }) => (
+  <Layout>
+    <NextSeo title="Contact" />
+    {children}
+  </Layout>
+);
 
 export default ContactPage;

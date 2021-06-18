@@ -9,14 +9,15 @@ import Nav from 'components/Nav';
 const Layout = ({
   children,
   className,
-  style,
+  innerClassName,
+  pageClassName,
 
   noSpacing = false,
 }) => {
   const router = useRouter();
 
   return (
-    <div className="wrapper">
+    <div className={clsx('wrapper', className)}>
       <TransitionGroup component="main" className="main">
         <CSSTransition
           key={router.asPath}
@@ -25,11 +26,8 @@ const Layout = ({
           mountOnEnter
           unmountOnExit
         >
-          <div className="main-inner">
-            <div
-              className={clsx(className, !noSpacing && 'page')}
-              style={style}
-            >
+          <div className={clsx('main-inner', innerClassName)}>
+            <div className={clsx(pageClassName, !noSpacing && 'page')}>
               {children}
             </div>
           </div>

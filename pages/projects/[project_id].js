@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { FaCloudDownloadAlt, FaLink, FaCode } from '@react-icons';
+import { NextSeo } from 'next-seo';
 
 import Layout from 'components/Layout';
 import projects from 'lib/projects';
@@ -44,61 +45,83 @@ const ShowProjectPage = ({ project }) => {
     url,
     source,
     image,
-    imageAspectRatio: iar,
+    imageW,
+    imageH,
     hideImage,
   } = project;
 
   const isNPM = !!url?.includes('npmjs.com');
 
   return (
-    <AnimatedItems className="content" firstGoLeft dist={24}>
-      <GoBackLink href="/projects" />
-      <h1>{title}</h1>
-      {download && (
-        <p>
-          <a href={download}>
-            <FaCloudDownloadAlt className="icon-head" aria-hidden />
-            Download Link
-          </a>
-        </p>
-      )}
-      {url && (
-        <p>
-          <a href={url}>
-            <FaLink className="icon-head" aria-hidden />
-            {isNPM ? 'NPM Package' : 'Live Website'}
-          </a>
-        </p>
-      )}
-      {source && (
-        <p>
-          <a href={source}>
-            <FaCode className="icon-head" aria-hidden />
-            Source
-          </a>
-        </p>
-      )}
-      {!hideImage && image && (
-        <div className="shadowed" style={{ marginBottom: '2rem' }}>
-          <Image
-            width={800}
-            height={iar ? 800 * iar : 600}
-            objectFit="cover"
-            src={image}
-            alt={`Image of ${title}`}
-          />
-        </div>
-      )}
-      {Array.isArray(desc)
-        ? desc
-        : desc.split('\n').map((d, i) => <p key={i}>{d}</p>)}
-
-      <style jsx>{`
-        .shadowed > :global(*) {
-          display: block !important;
+    <>
+      <NextSeo
+        title={`${title} - Wyatt Ades Project`}
+        openGraph={
+          image
+            ? {
+                images: [
+                  {
+                    url: image,
+                    alt: title,
+                    ...(imageW && imageH
+                      ? { width: imageW, height: imageH }
+                      : {}),
+                  },
+                ],
+              }
+            : {}
         }
-      `}</style>
-    </AnimatedItems>
+      />
+
+      <AnimatedItems className="content" firstGoLeft dist={24}>
+        <GoBackLink href="/projects" />
+        <h1>{title}</h1>
+        {download && (
+          <p>
+            <a href={download}>
+              <FaCloudDownloadAlt className="icon-head" aria-hidden />
+              Download Link
+            </a>
+          </p>
+        )}
+        {url && (
+          <p>
+            <a href={url}>
+              <FaLink className="icon-head" aria-hidden />
+              {isNPM ? 'NPM Package' : 'Live Website'}
+            </a>
+          </p>
+        )}
+        {source && (
+          <p>
+            <a href={source}>
+              <FaCode className="icon-head" aria-hidden />
+              Source
+            </a>
+          </p>
+        )}
+        {!hideImage && image && (
+          <div className="shadowed" style={{ marginBottom: '2rem' }}>
+            <Image
+              width={800}
+              height={imageW && imageH ? (800 * imageH) / imageW : 600}
+              objectFit="cover"
+              src={image}
+              alt={`Image of ${title}`}
+            />
+          </div>
+        )}
+        {Array.isArray(desc)
+          ? desc
+          : desc.split('\n').map((d, i) => <p key={i}>{d}</p>)}
+
+        <style jsx>{`
+          .shadowed > :global(*) {
+            display: block !important;
+          }
+        `}</style>
+      </AnimatedItems>
+    </>
   );
 };
 

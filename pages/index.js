@@ -1,14 +1,20 @@
-import React from 'react';
-import { useThrottle } from 'react-use';
+import React, { useState } from 'react';
+import { useDebounce as useDebounceFn } from 'react-use';
 
 import Layout from 'components/Layout';
 import BlockText from 'components/BlockText';
 import { useHoveredLink } from 'components/Link';
 
+const useDebounced = (val, wait) => {
+  const [v, setV] = useState(val);
+  useDebounceFn(() => setV(val), wait, [val]);
+  return v;
+};
+
 const IndexPage = () => {
   const [hoveredLink] = useHoveredLink();
 
-  const text = useThrottle(hoveredLink || 'WYATT', 1000);
+  const text = useDebounced(hoveredLink || 'WYATT', 600);
 
   return (
     <>
@@ -34,7 +40,7 @@ const IndexPage = () => {
 };
 
 IndexPage.getLayout = ({ children }) => (
-  <Layout className="layers" noSpacing>
+  <Layout className="index-page" pageClassName="layers" noSpacing>
     {children}
   </Layout>
 );

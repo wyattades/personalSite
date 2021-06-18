@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaLink } from '@react-icons';
+import { NextSeo } from 'next-seo';
 
 import { getResumeItems } from 'lib/resumeItems';
 import Layout from 'components/Layout';
@@ -24,6 +25,11 @@ const AboutPage = () => {
   );
 };
 
-AboutPage.getLayout = ({ children }) => <Layout>{children}</Layout>;
+AboutPage.getLayout = ({ children }) => (
+  <Layout>
+    <NextSeo title="About" />
+    {children}
+  </Layout>
+);
 
 export default AboutPage;

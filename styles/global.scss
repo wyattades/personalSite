@@ -15,6 +15,35 @@ $container: 800px;
 @import './transition';
 @import './resume';
 
+// TODO: dotted background
+/*html,
+body,
+#__next,
+.wrapper,
+main {
+  height: 100%;
+}
+
+.wrapper::before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  //z-index: -1;
+
+  transition: opacity 2s ease;
+  background-image: radial-gradient(#cecece 1px, transparent 0);
+  background-size: 34px 34px;
+  background-position: -16px -16px;
+}
+.wrapper.index-page::before {
+  opacity: 1;
+}*/
+
 // credit to FontAwesome:
 .sr-only {
   position: absolute;

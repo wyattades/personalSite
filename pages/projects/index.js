@@ -3,6 +3,7 @@ import TransitionGroup from 'react-transition-group/TransitionGroup';
 import * as Animated from 'animated/lib/targets/react-dom';
 import { useTimeoutFn } from 'react-use';
 import Image from 'next/image';
+import { NextSeo } from 'next-seo';
 
 import projects from 'lib/projects';
 import Layout from 'components/Layout';
@@ -39,6 +40,8 @@ const ProjectsPage = () => {
 
   return (
     <>
+      <NextSeo title="Projects" />
+
       <Animated.div style={style} className="content">
         <h1>Projects</h1>
         <p>
