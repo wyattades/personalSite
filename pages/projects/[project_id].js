@@ -35,6 +35,29 @@ export const getStaticPaths = async () => {
   };
 };
 
+const Markdown = ({ content }) => {
+  return content
+    .trim()
+    .split(/\n{2,}/)
+    .map((p, i) => {
+      const parts = [];
+      let lastIndex = 0;
+      for (const m of p.matchAll(/\[(.*?)\]\((.*?)\)/g)) {
+        console.log(m);
+        const before = p.substring(lastIndex, m.index);
+        if (before) parts.push(before);
+        parts.push(
+          <a key={parts.length} href={m[2]}>
+            {m[1]}
+          </a>,
+        );
+        lastIndex = m.index + m[0].length;
+      }
+      if (p.length > lastIndex) parts.push(p.substring(lastIndex, p.length));
+      return <p key={i}>{parts}</p>;
+    });
+};
+
 const ShowProjectPage = ({ project }) => {
   if (project.p5Sketch) return <PlaySketch game={project} />;
 
@@ -111,9 +134,7 @@ const ShowProjectPage = ({ project }) => {
             />
           </div>
         )}
-        {Array.isArray(desc)
-          ? desc
-          : desc.split('\n').map((d, i) => <p key={i}>{d}</p>)}
+        {desc && typeof desc === 'string' ? <Markdown content={desc} /> : null}
 
         <style jsx>{`
           .shadowed > :global(*) {
