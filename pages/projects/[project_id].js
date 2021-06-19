@@ -134,7 +134,11 @@ const ShowProjectPage = ({ project }) => {
             />
           </div>
         )}
-        {desc && typeof desc === 'string' ? <Markdown content={desc} /> : null}
+        {desc && typeof desc === 'string' ? (
+          <Markdown content={desc} />
+        ) : Array.isArray(desc) ? (
+          desc
+        ) : null}
 
         <style jsx>{`
           .shadowed > :global(*) {
