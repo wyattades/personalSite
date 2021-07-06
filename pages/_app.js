@@ -5,7 +5,6 @@ import { DefaultSeo } from 'next-seo';
 import 'styles/global.scss';
 
 const HOST_URL = process.env.HOST_URL;
-const GA_ID = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS;
 
 const App = ({ Component, pageProps }) => {
   const Layout = Component.getLayout || (({ children }) => children);
@@ -30,15 +29,12 @@ const App = ({ Component, pageProps }) => {
           sizes="16x16"
           href="/favicon-16x16.png"
         />
-        {GA_ID ? (
+        {process.env.NODE_ENV === 'production' ? (
           <script
-            dangerouslySetInnerHTML={{
-              __html: `(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-ga('create', '${GA_ID}', 'auto');ga('send', 'pageview');`,
-            }}
+            async
+            defer
+            data-website-id="583e2bc6-8606-4c14-a2be-70612377adff"
+            src="https://sip-umami.vercel.app/umami.js"
           />
         ) : null}
       </Head>
